@@ -1,7 +1,7 @@
 :root{
-  --ink:#242220;
+  --ink:#222b24;
   --nav-footer:#272b00;
-  --paper:#D8E6DD;
+  --paper:#cae3d3;
   --paper-dim:#DFDACD;
   --lagoon:#39493D;
   --coral:#8C2F26;
@@ -43,7 +43,7 @@ a:focus-visible, button:focus-visible{outline:2px solid var(--gold); outline-off
 
 .topbar{display:flex; align-items:center; justify-content:space-between; padding:22px 32px; gap:24px;}
 .brand{display:flex; align-items:center; gap:10px;}
-.brand img{height:30px; width:auto;}
+.brand img{height:55px; width:55px; object-fit:contain;}
 .brand-name{font-family:var(--serif); font-weight:600; font-size:1.05rem; color:var(--paper); letter-spacing:.01em;}
 
 nav ul{display:flex; gap:34px; list-style:none;}
@@ -56,6 +56,14 @@ nav a[aria-current="page"]{color:var(--gold);}
 nav a[aria-current="page"]::after{width:100%;}
 nav a:hover{color:var(--coral);}
 nav a:hover::after{width:100%; background:var(--coral);}
+
+/* Fix: mobile-only nav elements must be hidden by default on desktop.
+   Previously these had no base rule and only existed inside the
+   max-width:900px media query, so on desktop they rendered with
+   their natural display (block), duplicating "Reservar Tour" and
+   the language switcher next to the real desktop-only versions. */
+.mobile-lang-row{display:none;}
+.mobile-book{display:none;}
 
 .header-actions{display:flex; align-items:center; gap:22px;}
 .book-link{
@@ -216,7 +224,7 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    WHY GALA NATURALEZA — few strong statements
    ========================================================== */
-.why-section{background:#FBF3B8;}
+.why-section{background:#deedbe;}
 .why-list{display:flex; flex-direction:column; margin-top:40px;}
 .why-item{
   display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
@@ -247,7 +255,7 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    ACCESSORIES
    ========================================================== */
-.accessories-section{background:#FBF3B8;}
+   .accessories-section{background:#8ab3cf;}
 .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
 .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
 .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
@@ -330,7 +338,7 @@ footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
 
   .topbar{padding:14px 20px;}
   .brand-name{font-size:.95rem;}
-  .brand img{height:26px;}
+  .brand img{height:44px; width:44px;}
 
   .hero-content{padding-top:120px; padding-bottom:44px; max-width:100%;}
   .hero-content h1{font-size:clamp(1.7rem, 7vw, 2.1rem); max-width:12ch;}
