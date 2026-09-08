@@ -224,7 +224,7 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    WHY GALA NATURALEZA — few strong statements
    ========================================================== */
-.why-section{background:#deedbe;}
+.why-section{background:#FBF3B8;}
 .why-list{display:flex; flex-direction:column; margin-top:40px;}
 .why-item{
   display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
@@ -255,13 +255,123 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    ACCESSORIES
    ========================================================== */
-   .accessories-section{background:#8ab3cf;}
+.accessories-section{background:#FBF3B8;}
 .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
 .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
 .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
 .accessory-card p{font-size:.92rem; color:#4A4741; margin-bottom:0;}
 
 @media (max-width:640px){ .accessories-grid{grid-template-columns:1fr;} }
+
+/* ==========================================================
+   PAGE HERO — compact single-photo hero (inner pages)
+   ========================================================== */
+.page-hero{
+  position:relative; min-height:46vh; display:flex; align-items:flex-end;
+  overflow:hidden;
+}
+.page-hero .hero-slide{opacity:1;}
+.page-hero::after{
+  content:''; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(0deg, rgba(24,22,20,.72) 0%, rgba(24,22,20,.3) 50%, rgba(24,22,20,.08) 75%);
+}
+.page-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:56px; padding-top:150px; max-width:36rem;}
+.page-hero-content h1{
+  font-family:var(--serif); font-weight:600; line-height:1.1;
+  font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+}
+
+/* ==========================================================
+   CONTACT — intro band with WhatsApp CTA
+   ========================================================== */
+.contact-intro{background:var(--paper); padding-bottom:0;}
+.contact-whatsapp-band{
+  background:var(--ink); color:var(--paper);
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  gap:24px; padding:40px 48px; border-radius:2px;
+}
+.contact-whatsapp-band p{max-width:32rem; font-size:1.02rem; color:rgba(216,230,221,.85);}
+.btn-whatsapp{
+  display:inline-flex; align-items:center; gap:10px; flex-shrink:0;
+  background:var(--coral); color:#fff; padding:14px 26px; border-radius:2px;
+  font-weight:600; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em;
+}
+.btn-whatsapp svg{width:18px; height:18px; fill:#fff;}
+.btn-whatsapp:hover{background:#701f18;}
+
+@media (max-width:600px){
+  .contact-whatsapp-band{padding:28px 24px; flex-direction:column; align-items:flex-start;}
+}
+
+/* ==========================================================
+   CONTACT — form + info grid
+   ========================================================== */
+.contact-grid{display:grid; grid-template-columns:1.3fr .9fr; gap:72px; align-items:start;}
+.contact-form .kicker{margin-bottom:6px;}
+.contact-form .section-title{margin-bottom:32px;}
+
+.field{margin-bottom:24px;}
+.field label{
+  display:block; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--lagoon); font-weight:600; margin-bottom:8px;
+}
+.field input, .field textarea{
+  width:100%; border:none; border-bottom:1.5px solid var(--paper-dim);
+  background:transparent; padding:10px 2px; font-family:var(--sans);
+  font-size:1rem; color:var(--ink);
+}
+.field textarea{min-height:120px; resize:vertical;}
+.field input:focus, .field textarea:focus{
+  outline:none; border-bottom-color:var(--coral);
+}
+.btn-send{
+  background:var(--coral); color:#fff; border:none; cursor:pointer;
+  padding:15px 32px; border-radius:2px; font-weight:600; font-size:.9rem;
+  text-transform:uppercase; letter-spacing:.03em;
+}
+.btn-send:hover{background:#701f18;}
+.contact-form-note{font-size:.78rem; color:#6B6860; margin-top:14px;}
+
+.contact-info-block{padding-bottom:26px; margin-bottom:26px; border-bottom:1px solid var(--paper-dim);}
+.contact-info-block:last-child{border-bottom:none; margin-bottom:0;}
+.contact-info-block h4{
+  font-size:.76rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--jungle); font-weight:600; margin-bottom:8px;
+}
+.contact-info-block p{font-family:var(--serif); font-size:1.15rem;}
+.contact-info-block a:hover{color:var(--coral);}
+
+@media (max-width:860px){ .contact-grid{grid-template-columns:1fr; gap:48px;} }
+
+/* ==========================================================
+   CONTACT — follow / social proof
+   ========================================================== */
+.contact-follow{background:var(--paper);}
+.insta-grid{
+  display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-top:40px; margin-bottom:56px;
+}
+.insta-grid .instagram-media{max-width:100% !important; min-width:0 !important; width:100% !important;}
+
+.channel-cards{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+.channel-card{
+  display:flex; align-items:center; gap:14px;
+  border:1px solid var(--paper-dim); border-radius:2px; padding:20px 22px;
+  color:var(--ink);
+}
+.channel-card svg{width:26px; height:26px; fill:var(--lagoon); flex-shrink:0;}
+.channel-card .name{display:block; font-family:var(--serif); font-weight:600; font-size:1rem;}
+.channel-card .desc{display:block; font-size:.8rem; color:#6B6860; margin-top:2px;}
+.channel-card:hover{border-color:var(--coral);}
+.channel-card:hover svg{fill:var(--coral);}
+.channel-card.is-placeholder{opacity:.55; cursor:default;}
+.channel-card.is-placeholder:hover{border-color:var(--paper-dim);}
+.channel-card.is-placeholder:hover svg{fill:var(--lagoon);}
+
+@media (max-width:900px){ .insta-grid{grid-template-columns:repeat(3,1fr);} }
+@media (max-width:640px){
+  .insta-grid{grid-template-columns:repeat(2,1fr);}
+  .channel-cards{grid-template-columns:1fr;}
+}
 
 /* ==========================================================
    FOOTER — compact, left-aligned, multi-column

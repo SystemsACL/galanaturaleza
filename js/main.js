@@ -48,6 +48,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 6000);
   }
 
+  /* Contact form: opens the user's mail app with a pre-filled message,
+     no backend involved. Reads config from data-* attributes on the form. */
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var to = contactForm.getAttribute('data-mailto');
+      var subjectLabel = contactForm.getAttribute('data-subject-label') || 'New message from';
+      var labelName = contactForm.getAttribute('data-label-name') || 'Name';
+      var labelEmail = contactForm.getAttribute('data-label-email') || 'Email';
+
+      var name = (contactForm.querySelector('[name="name"]') || {}).value || '';
+      var email = (contactForm.querySelector('[name="email"]') || {}).value || '';
+      var message = (contactForm.querySelector('[name="message"]') || {}).value || '';
+
+      var subject = encodeURIComponent(subjectLabel + ' ' + name);
+      var body = encodeURIComponent(
+        message + '\n\n' + labelName + ': ' + name + '\n' + labelEmail + ': ' + email
+      );
+
+      window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+    });
+  }
+
   /* Reveal-on-scroll for editorial sections */
   var revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length) {
