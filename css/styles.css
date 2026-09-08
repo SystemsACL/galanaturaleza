@@ -224,7 +224,7 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    WHY GALA NATURALEZA — few strong statements
    ========================================================== */
-.why-section{background:#FBF3B8;}
+.why-section{background:#96bee0;}
 .why-list{display:flex; flex-direction:column; margin-top:40px;}
 .why-item{
   display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
@@ -255,7 +255,7 @@ section{padding-block:clamp(80px, 10vw, 140px);}
 /* ==========================================================
    ACCESSORIES
    ========================================================== */
-.accessories-section{background:#FBF3B8;}
+.accessories-section{background:#cdf7f0;}
 .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
 .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
 .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
