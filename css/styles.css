@@ -482,9 +482,109 @@ footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
   .footer-bottom{text-align:left;}
 
   .wa-float{bottom:16px; right:16px;}
+
+  .talk-hero-content{padding-top:110px; padding-bottom:40px;}
+  .talk-hero-content h1{font-size:clamp(2rem, 9vw, 2.6rem);}
+
+  .marquee{padding-block:14px;}
+  .marquee-track{gap:1.4rem;}
+  .marquee-track span{font-size:.92rem;}
+
+  .strip-item span{font-size:1.05rem; left:14px; bottom:14px;}
+
+  .options-grid{gap:16px;}
+  .option-card{padding:30px 22px;}
+  .option-card .opt-value{font-size:1rem; word-break:break-word;}
+  .opt-btn{width:100%; justify-content:center; padding:15px 20px;}
 }
 
 /* Landscape phones / small tablets where the nav drawer needs full height comfortably */
 @media (max-width:900px) and (max-height:420px){
   nav{padding-top:72px;}
 }
+
+/* ==========================================================
+   CONTACT — REDESIGN v2: minimal invitation to talk
+   (replaces the old form/grid/follow structure)
+   ========================================================== */
+
+/* Hero: "LET'S TALK" kicker + short headline, reuses .page-hero image mechanics */
+.talk-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:64px; padding-top:170px; max-width:34rem;}
+.talk-hero-content h1{
+  font-family:var(--serif); font-weight:600; line-height:1.05;
+  font-size:clamp(2.4rem, 5.5vw, 4.2rem); margin-top:6px;
+}
+
+/* Marquee — CSS-only infinite scroll of short phrases */
+.marquee{
+  background:var(--ink); color:var(--paper);
+  overflow:hidden; white-space:nowrap; padding-block:22px;
+}
+.marquee-track{
+  display:inline-flex; gap:2.5rem;
+  animation:marquee-scroll 32s linear infinite;
+}
+.marquee-track span{
+  font-family:var(--serif); font-style:italic; font-size:1.15rem;
+  letter-spacing:.02em; color:rgba(216,230,221,.85); flex-shrink:0;
+}
+.marquee-track span.dot{color:var(--gold); font-style:normal;}
+@keyframes marquee-scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{animation:none; overflow-x:auto;}
+}
+
+/* Destination strip — native CSS scroll-snap, no carousel library */
+.destination-strip{background:var(--paper); padding-block:0;}
+.strip-scroller{
+  display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:0 32px 8px; margin:0 -32px;
+  justify-content:center;
+  scrollbar-width:thin;
+}
+.strip-item{
+  position:relative; flex:0 0 min(78vw, 420px); aspect-ratio:3/4;
+  scroll-snap-align:start; overflow:hidden;
+}
+.strip-item img{width:100%; height:100%; object-fit:cover;}
+.strip-item::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(0deg, rgba(24,22,20,.6) 0%, rgba(24,22,20,0) 45%);
+}
+.strip-item span{
+  position:absolute; left:20px; bottom:20px; z-index:2;
+  color:var(--paper); font-family:var(--serif); font-weight:600;
+  font-size:1.3rem; letter-spacing:.02em; text-transform:uppercase;
+}
+@media (max-width:640px){ .strip-item{flex-basis:82vw;} .strip-scroller{justify-content:flex-start;} }
+
+/* Contact options — WhatsApp (primary) + Email (secondary) */
+.contact-options{background:var(--paper);}
+.options-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:0;}
+.option-card{padding:44px 40px; border-radius:2px;}
+.option-card.is-primary{background:var(--ink); color:var(--paper);}
+.option-card.is-secondary{background:var(--paper-dim); color:var(--ink);}
+.option-card .opt-label{
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  display:block; margin-bottom:14px;
+}
+.option-card.is-primary .opt-label{color:var(--gold);}
+.option-card.is-secondary .opt-label{color:var(--lagoon);}
+.option-card p{font-size:1.05rem; margin-bottom:26px; max-width:26rem;}
+.option-card.is-primary p{color:rgba(216,230,221,.85);}
+.option-card.is-secondary p{color:#4A4741;}
+.option-card .opt-value{font-family:var(--serif); font-size:1.15rem; display:block; margin-bottom:22px;}
+.opt-btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:.88rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+  padding:15px 30px; border-radius:2px;
+}
+.option-card.is-primary .opt-btn{background:var(--coral); color:#fff;}
+.option-card.is-primary .opt-btn:hover{background:#701f18;}
+.option-card.is-secondary .opt-btn{background:var(--ink); color:var(--paper);}
+.option-card.is-secondary .opt-btn:hover{background:var(--coral);}
+
+@media (max-width:760px){ .options-grid{grid-template-columns:1fr;} .option-card{padding:36px 28px;} }
