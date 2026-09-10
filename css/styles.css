@@ -588,3 +588,49 @@ footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
 .option-card.is-secondary .opt-btn:hover{background:var(--coral);}
 
 @media (max-width:760px){ .options-grid{grid-template-columns:1fr;} .option-card{padding:36px 28px;} }
+
+/* ==========================================================
+   TOURS PAGE — new sections (append to end of styles.css)
+   ========================================================== */
+
+   #cozumel, #yucatan, #chiapas{ scroll-margin-top:90px; }
+
+   .tours-jump{ background:var(--paper-dim); padding-block:18px; }
+   .tours-jump ul{ display:flex; justify-content:center; gap:36px; list-style:none; flex-wrap:wrap; }
+   .tours-jump a{
+     font-size:.8rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+     color:var(--lagoon); border-bottom:1px solid transparent; padding-bottom:3px;
+   }
+   .tours-jump a:hover{ color:var(--coral); border-color:var(--coral); }
+   
+   .tour-formats{ background:var(--paper); }
+   .tour-formats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:40px; }
+   .tour-format-item{ padding-top:28px; border-top:1px solid rgba(36,34,32,.14); }
+   .tour-format-item .format-meta{
+     font-size:.8rem; letter-spacing:.06em; text-transform:uppercase;
+     color:var(--jungle); margin-bottom:12px; display:block;
+   }
+   .tour-format-item h4{ font-family:var(--serif); font-weight:600; font-size:1.3rem; margin-bottom:10px; }
+   .tour-format-item p{ color:#4A4741; font-size:.96rem; max-width:34rem; }
+   
+   @media (max-width:760px){ .tour-formats-grid{ grid-template-columns:1fr; } }
+   
+   .what-to-expect{ background:var(--paper-dim); }
+   .what-to-expect .section-title{ max-width:20ch; }
+   .what-to-expect p{ color:#4A4741; font-size:1.05rem; max-width:42rem; }
+   .what-to-expect p.lead{
+     font-family:var(--serif); font-style:italic; font-size:1.25rem;
+     color:var(--lagoon); margin-bottom:18px;
+   }
+   
+   .tours-final-cta{ background:var(--ink); color:var(--paper); text-align:center; }
+   .tours-final-cta h2{
+     font-family:var(--serif); font-weight:600;
+     font-size:clamp(1.8rem,3.4vw,2.6rem); margin-bottom:28px;
+   }
+   .tours-final-cta .hero-cta{ justify-content:center; margin:0 auto; display:inline-flex; }
+   
+   @media (max-width:480px){
+     .tours-jump ul{ gap:20px; }
+     .tour-formats-grid{ gap:28px; }
+   }
