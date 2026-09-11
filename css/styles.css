@@ -2,7 +2,7 @@
   --ink:#222b24;
   --nav-footer:#272b00;
   --paper:#cae3d3;
-  --paper-dim:#DFDACD;
+  --paper-dim:#c3f7e9;
   --lagoon:#39493D;
   --coral:#8C2F26;
   --jungle:#A69574;
@@ -634,3 +634,13 @@ footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
      .tours-jump ul{ gap:20px; }
      .tour-formats-grid{ gap:28px; }
    }
+   /* ==========================================================
+   WELCOME / INTRO SECTION (Home) — append to end of styles.css
+   ========================================================== */
+.intro-section{ background:var(--paper); }
+.intro-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center; }
+.intro-copy p{ font-size:1.08rem; color:#4A4741; max-width:34rem; }
+.intro-media{ aspect-ratio:4/3; overflow:hidden; }
+.intro-media img{ width:100%; height:100%; object-fit:cover; }
+
+@media (max-width:840px){ .intro-grid{ grid-template-columns:1fr; gap:32px; } }
