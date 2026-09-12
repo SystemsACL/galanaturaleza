@@ -65,4 +65,20 @@ document.addEventListener('DOMContentLoaded', function () {
       revealEls.forEach(function (el) { el.classList.add('is-visible'); });
     }
   }
+    /* WhatsApp bubble: aparece una vez por sesión, se puede cerrar */
+    var waBubble = document.querySelector('.wa-bubble');
+    if (waBubble) {
+      var waBubbleClose = waBubble.querySelector('.wa-bubble-close');
+      if (!sessionStorage.getItem('waBubbleDismissed')) {
+        setTimeout(function () {
+          waBubble.classList.add('is-visible');
+        }, 4000);
+      }
+      if (waBubbleClose) {
+        waBubbleClose.addEventListener('click', function () {
+          waBubble.classList.remove('is-visible');
+          sessionStorage.setItem('waBubbleDismissed', '1');
+        });
+      }
+    }
 });

@@ -694,3 +694,45 @@
     .tours-jump ul{ gap:20px; }
     .tour-formats-grid{ gap:28px; }
   }
+  .section-title-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.trip-badge{ width:32px; height:32px; fill:#00AF87; flex-shrink:0; }
+
+.review-dots{ display:flex; gap:5px; margin-bottom:10px; }
+.review-dots span{ width:10px; height:10px; border-radius:50%; background:#00AF87; display:inline-block; }
+.trip-count{
+  font-size:.85rem; color:var(--jungle); font-weight:600;
+  letter-spacing:.02em; margin-top:-8px; margin-bottom:32px;
+}
+/* ==========================================================
+   WHATSAPP BUBBLE — invitación contextual junto al botón flotante
+   ========================================================== */
+   .wa-bubble{
+    position:fixed; right:24px; bottom:90px; z-index:69;
+    background:#fff; color:var(--ink); max-width:260px;
+    padding:16px 18px; border-radius:8px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    font-size:.88rem; line-height:1.4;
+    opacity:0; transform:translateY(10px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .wa-bubble.is-visible{ opacity:1; transform:none; pointer-events:auto; }
+  .wa-bubble strong{
+    display:block; margin-bottom:4px;
+    font-family:var(--serif); font-size:1rem; font-weight:600;
+  }
+  .wa-bubble-close{
+    position:absolute; top:-10px; right:-10px;
+    width:24px; height:24px; border-radius:50%;
+    background:#fff; border:1px solid var(--paper-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:14px; line-height:1; color:var(--ink);
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+  }
+  .wa-bubble-link{
+    display:inline-block; margin-top:10px; color:var(--coral);
+    font-weight:700; font-size:.8rem; text-transform:uppercase; letter-spacing:.03em;
+  }
+  
+  @media (max-width:600px){
+    .wa-bubble{ right:16px; bottom:78px; max-width:calc(100vw - 32px); }
+  }
