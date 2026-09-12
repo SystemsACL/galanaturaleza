@@ -1,646 +1,696 @@
-:root{
-  --ink:#222b24;
-  --nav-footer:#272b00;
-  --paper:#cae3d3;
-  --paper-dim:#c3f7e9;
-  --lagoon:#39493D;
-  --coral:#8C2F26;
-  --jungle:#A69574;
-  --gold:#C9A227;
-  --serif:'Fraunces', serif;
-  --sans:'Inter', sans-serif;
-}
-*{box-sizing:border-box; margin:0; padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--sans); background:var(--paper); color:var(--ink); line-height:1.55;}
-a{color:inherit; text-decoration:none;}
-img{display:block; max-width:100%;}
-.wrap{max-width:1280px; margin:0 auto; padding:0 32px;}
-a:focus-visible, button:focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
-@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important; scroll-behavior:auto;}}
+/* ============================================================
+   GALA NATURALEZA — STYLESHEET
+   ============================================================
+   Sitio 100% estático (HTML/CSS/JS), sin build, sin framework.
+   Este archivo es compartido por TODAS las páginas (Home, Tours,
+   Contact, Gallery cuando exista).
 
-.skip-link{
-  position:absolute; left:-999px; top:0; z-index:100;
-  background:var(--coral); color:#fff; padding:12px 20px; font-weight:600;
-}
-.skip-link:focus{left:16px; top:16px;}
+   ÍNDICE (busca estos títulos con Ctrl/Cmd+F):
+     1. RESET Y VARIABLES GLOBALES
+     2. HEADER (nav, logo, menú mobile)
+     3. HERO — Home (slider cinematográfico)
+     4. TIPOGRAFÍA / SHELL DE SECCIÓN (usado en todas las páginas)
+     5. WELCOME / INTRO — solo Home
+     6. TOURS PREVIEW (clases .tour-feature) — usado en Tours,
+        y anteriormente en Home (ya no, se reemplazó por Welcome)
+     7. ELVIS — solo Home
+     8. BIRDS & NATURE — solo Home
+     9. WHY GALA NATURALEZA — solo Home
+     10. REVIEWS — solo Home
+     11. ACCESSORIES — solo Home
+     12. PAGE HERO — hero compacto de páginas internas (Tours, Contact)
+     13. TOURS PAGE — jump nav, formatos, what to expect
+     14. CONTACT PAGE — hero, marquee, destination strip, opciones
+     15. FOOTER — todas las páginas
+     16. WHATSAPP FLOTANTE — todas las páginas
+     17. MEDIA QUERIES GLOBALES (mobile fine-tuning)
 
-/* ==========================================================
-   HEADER — transparent over hero, solid/glass on scroll
-   ========================================================== */
-.site-header{
-  position:fixed; top:0; left:0; right:0; z-index:60;
-  background:transparent;
-  transition:background .3s ease, backdrop-filter .3s ease, box-shadow .3s ease;
-}
-.site-header.is-solid{
-  background:rgba(39,43,0,0.93);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  box-shadow:0 2px 16px rgba(0,0,0,.15);
-}
-.site-header.no-hero{ background:var(--nav-footer); }
+   NOTAS PARA EL SIGUIENTE DEV:
+   - Todas las páginas internas import este mismo archivo desde
+     ../css/styles.css — cualquier cambio aquí afecta TODO el sitio.
+   - Los ids de ancla (#cozumel, #yucatan, #chiapas) viven en el
+     HTML de tours.html, no aquí — este archivo solo define el
+     scroll-margin-top para que el header fijo no los tape.
+   - ⚠️ Hay 2 colores que no coinciden con la paleta editorial
+     documentada originalmente (ver aviso en la sección 1 y en
+     WHY / ACCESSORIES más abajo). Probablemente sean valores de
+     prueba — confirmar con diseño antes de ir a producción.
+   ============================================================ */
 
-.topbar{display:flex; align-items:center; justify-content:space-between; padding:22px 32px; gap:24px;}
-.brand{display:flex; align-items:center; gap:10px;}
-.brand img{height:55px; width:55px; object-fit:contain;}
-.brand-name{font-family:var(--serif); font-weight:600; font-size:1.05rem; color:var(--paper); letter-spacing:.01em;}
 
-nav ul{display:flex; gap:34px; list-style:none;}
-nav a{
-  font-size:.86rem; font-weight:500; letter-spacing:.03em; text-transform:uppercase;
-  color:var(--paper); position:relative; padding-bottom:3px;
-}
-nav a::after{content:''; position:absolute; left:0; bottom:-3px; height:2px; width:0; background:var(--gold); transition:width .2s ease, background .2s ease;}
-nav a[aria-current="page"]{color:var(--gold);}
-nav a[aria-current="page"]::after{width:100%;}
-nav a:hover{color:var(--coral);}
-nav a:hover::after{width:100%; background:var(--coral);}
-
-/* Fix: mobile-only nav elements must be hidden by default on desktop.
-   Previously these had no base rule and only existed inside the
-   max-width:900px media query, so on desktop they rendered with
-   their natural display (block), duplicating "Reservar Tour" and
-   the language switcher next to the real desktop-only versions. */
-.mobile-lang-row{display:none;}
-.mobile-book{display:none;}
-
-.header-actions{display:flex; align-items:center; gap:22px;}
-.book-link{
-  font-size:.82rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase;
-  color:var(--paper); border-bottom:1px solid var(--gold); padding-bottom:2px;
-}
-.book-link:hover{color:var(--gold);}
-
-.lang-switch{display:flex; align-items:center; gap:6px; font-size:.76rem; font-weight:600; color:#B7B4A9;}
-.lang-switch span[aria-current]{color:var(--gold);}
-.lang-switch a{color:#B7B4A9;}
-.lang-switch a:hover{color:var(--paper);}
-
-.nav-toggle{
-  display:none; background:none; border:none; color:var(--paper); cursor:pointer; padding:6px;
-  position:relative; z-index:56;
-}
-.nav-toggle svg{width:24px; height:24px;}
-
-@media (max-width:900px){
-  .topbar{padding:18px 24px;}
-nav{
-    position:fixed; top:0; left:0; right:0; height:100dvh;
-    background:var(--nav-footer);
-    display:flex; align-items:flex-start; justify-content:center;
-    transform:translateY(-100%); transition:transform .35s ease;
-    z-index:55; overflow-y:auto;
+/* ============================================================
+   1. RESET Y VARIABLES GLOBALES
+   ============================================================ */
+   :root{
+    --ink:#222b24;         /* texto oscuro, nav/footer sólido, fondo de Elvis */
+    --nav-footer:#272b00;  /* fondo del header cuando no hay hero detrás, y footer */
+    --paper:#cae3d3;       /* fondo principal del sitio (verde claro) */
+    --paper-dim:#c3f7e9;   /* ⚠️ VER NOTA ABAJO */
+    --lagoon:#39493D;      /* links, kickers, acentos secundarios */
+    --coral:#8C2F26;       /* CTAs, hovers, línea de acento */
+    --jungle:#A69574;      /* detalles chicos: numerales, tags, meta-labels */
+    --gold:#C9A227;        /* estado activo de nav, kicker sobre fondo oscuro */
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
   }
-  nav.is-open{transform:translateY(0);}
-  nav ul{flex-direction:column; align-items:flex-start; gap:0; width:100%; max-width:340px; padding:130px 24px 0;}
-  nav li{width:100%; border-bottom:none;}
-  nav li:first-child{border-top:none;}
+  /* ⚠️ NOTA: --paper-dim está en un tono menta/cian brillante (#c3f7e9),
+     muy distinto del beige original documentado (#DFDACD). Esta variable
+     se usa en bordes y fondos alternos en varias secciones (tour-feature,
+     tours-jump, what-to-expect). Si esto no fue un cambio intencional de
+     diseño, regresarlo a un tono tierra/beige es un cambio de una sola
+     línea aquí arriba. */
+  
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans); background:var(--paper); color:var(--ink); line-height:1.55;}
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+  .wrap{max-width:1280px; margin:0 auto; padding:0 32px;} /* contenedor centrado, usado en TODAS las secciones */
+  a:focus-visible, button:focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important; scroll-behavior:auto;}}
+  
+  .skip-link{
+    position:absolute; left:-999px; top:0; z-index:100;
+    background:var(--coral); color:#fff; padding:12px 20px; font-weight:600;
+  }
+  .skip-link:focus{left:16px; top:16px;}
+  
+  
+  /* ============================================================
+     2. HEADER — transparente sobre el hero, sólido al hacer scroll
+     Usado en TODAS las páginas. main.js agrega/quita .is-solid
+     según el scroll, y .no-hero cuando la página no tiene hero
+     grande (ej. contact.html, tours.html).
+     ============================================================ */
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    background:transparent;
+    transition:background .3s ease, backdrop-filter .3s ease, box-shadow .3s ease;
+  }
+  .site-header.is-solid{
+    background:rgba(39,43,0,0.93);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 2px 16px rgba(0,0,0,.15);
+  }
+  .site-header.no-hero{ background:var(--nav-footer); }
+  
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding:22px 32px; gap:24px;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{height:55px; width:55px; object-fit:contain;}
+  .brand-name{font-family:var(--serif); font-weight:600; font-size:1.05rem; color:var(--paper); letter-spacing:.01em;}
+  
+  nav ul{display:flex; gap:34px; list-style:none;}
   nav a{
-    display:block; padding:16px 0; text-align:left;
-    font-size:1.7rem; font-weight:700; text-transform:uppercase;
-    letter-spacing:.01em;
+    font-size:.86rem; font-weight:500; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--paper); position:relative; padding-bottom:3px;
   }
-  .mobile-lang-row{
-    display:none; align-items:center; gap:10px;
-    padding:16px 0; font-size:1.1rem; font-weight:700; text-transform:uppercase;
-    color:var(--paper);
+  nav a::after{content:''; position:absolute; left:0; bottom:-3px; height:2px; width:0; background:var(--gold); transition:width .2s ease, background .2s ease;}
+  nav a[aria-current="page"]{color:var(--gold);}
+  nav a[aria-current="page"]::after{width:100%;}
+  nav a:hover{color:var(--coral);}
+  nav a:hover::after{width:100%; background:var(--coral);}
+  
+  /* Estos elementos solo existen para el menú mobile (drawer a pantalla
+     completa). En desktop deben estar ocultos por defecto — si se borra
+     esta regla, se duplica "Reservar Tour" y el selector de idioma. */
+  .mobile-lang-row{display:none;}
+  .mobile-book{display:none;}
+  
+  .header-actions{display:flex; align-items:center; gap:22px;}
+  .book-link{
+    font-size:.82rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase;
+    color:var(--paper); border-bottom:1px solid var(--gold); padding-bottom:2px;
   }
-  .mobile-lang-row svg{width:20px; height:20px; flex-shrink:0;}
-  .mobile-lang-row .lang-switch{font-size:1.1rem; text-transform:uppercase; gap:8px;}
-  .mobile-book{
-    display:none; width:calc(100% - 48px); max-width:292px;
-    margin:28px 24px 0; padding:18px 0; text-align:center;
-    background:var(--paper); color:var(--nav-footer);
-    font-weight:700; text-transform:uppercase; letter-spacing:.02em;
-    border-radius:6px; font-size:1rem;
+  .book-link:hover{color:var(--gold);}
+  
+  .lang-switch{display:flex; align-items:center; gap:6px; font-size:.76rem; font-weight:600; color:#B7B4A9;}
+  .lang-switch span[aria-current]{color:var(--gold);}
+  .lang-switch a{color:#B7B4A9;}
+  .lang-switch a:hover{color:var(--paper);}
+  
+  .nav-toggle{
+    display:none; background:none; border:none; color:var(--paper); cursor:pointer; padding:6px;
+    position:relative; z-index:56;
   }
-  .mobile-lang-row{display:flex;}
-  .mobile-book{display:block;}
-  .header-actions{gap:14px;}
-  .header-actions > .lang-switch{display:none;}
-  .book-link{display:none;}
-  .nav-toggle{display:block;}
-}
-
-/* ==========================================================
-   HERO — cinematic, full-bleed, overlay + editorial type
-   ========================================================== */
-.hero-cinematic{
-  position:relative; min-height:100vh; display:flex; align-items:flex-end;
-  overflow:hidden;
-}
-.hero-slide{
-  position:absolute; inset:0; background-size:cover; background-position:center;
-  opacity:0; transition:opacity 1.2s ease;
-}
-.hero-slide.is-active{opacity:1;}
-.hero-cinematic::after{
-  content:''; position:absolute; inset:0; z-index:1;
-  background:linear-gradient(0deg, rgba(24,22,20,.72) 0%, rgba(24,22,20,.28) 42%, rgba(24,22,20,.05) 65%);
-}
-.hero-content{position:relative; z-index:2; color:var(--paper); max-width:34rem; padding-bottom:clamp(56px, 7vw, 96px); padding-top:160px;}
-.hero-kicker{font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; font-weight:600;}
-.hero-content h1{
-  font-family:var(--serif); font-weight:600; line-height:1.08;
-  font-size:clamp(1.9rem, 3.4vw, 2.8rem); max-width:13ch; margin-bottom:20px;
-}
-.hero-sub{font-size:clamp(.92rem, 1vw, 1rem); color:rgba(216,230,221,.88); max-width:30rem; margin-bottom:26px;}
-.hero-cta{
-  display:inline-flex; align-items:center; gap:10px;
-  font-size:.92rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase;
-  color:var(--paper); border-bottom:2px solid var(--coral); padding-bottom:6px;
-}
-.hero-cta:hover{color:var(--coral);}
-
-/* ==========================================================
-   Section shell / type
-   ========================================================== */
-section{padding-block:clamp(80px, 10vw, 140px);}
-.kicker{font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:1.05rem; margin-bottom:14px;}
-.section-title{font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem, 3.4vw, 2.8rem); max-width:22ch; margin-bottom:20px;}
-.section-link{font-weight:600; font-size:.88rem; text-transform:uppercase; letter-spacing:.03em; border-bottom:1px solid var(--coral); padding-bottom:2px; display:inline-block;}
-.section-link:hover{color:var(--coral);}
-.reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
-.reveal.is-visible{opacity:1; transform:none;}
-
-/* ==========================================================
-   TOURS PREVIEW — editorial, numbered, asymmetric
-   ========================================================== */
-.tours-editorial{background:var(--paper);}
-.tour-feature{
-  display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
-  padding-block:56px; border-top:1px solid var(--paper-dim);
-}
-.tour-feature:last-of-type{border-bottom:1px solid var(--paper-dim);}
-.tour-feature.is-reverse .tour-feature-media{order:2;}
-.tour-feature-media{aspect-ratio:4/3; overflow:hidden;}
-.tour-feature-media img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
-.tour-feature:hover .tour-feature-media img{transform:scale(1.04);}
-.tour-num{font-family:var(--serif); font-style:italic; color:var(--jungle); font-size:1rem; margin-bottom:14px;}
-.tour-place{font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:var(--lagoon); font-weight:600; margin-bottom:10px;}
-.tour-feature h3{font-family:var(--serif); font-weight:600; font-size:clamp(1.5rem,2.4vw,2.1rem); margin-bottom:14px;}
-.tour-species{font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:.92rem; margin-bottom:16px;}
-.tour-feature p.desc{color:#4A4741; font-size:.98rem; max-width:34rem; margin-bottom:22px;}
-.tour-meta{display:flex; gap:28px; margin-bottom:24px; font-size:.8rem; color:#6B6860;}
-.tour-meta b{display:block; color:var(--ink); font-size:.92rem; font-family:var(--serif);}
-
-@media (max-width:820px){
-  .tour-feature, .tour-feature.is-reverse{grid-template-columns:1fr;}
-  .tour-feature.is-reverse .tour-feature-media{order:0;}
-}
-
-/* ==========================================================
-   ELVIS — the person behind the experience
-   ========================================================== */
-.elvis-section{background:var(--ink); color:var(--paper);}
-.elvis-section .kicker{color:var(--gold);}
-.elvis-statement{font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,3.6vw,3rem); line-height:1.12; max-width:16ch; margin-bottom:56px;}
-.elvis-grid{display:grid; grid-template-columns:.75fr 1.25fr; gap:64px; align-items:center;}
-.elvis-grid img{width:100%; aspect-ratio:3/4; object-fit:cover;}
-.elvis-grid h3{font-family:var(--serif); font-weight:600; font-size:1.7rem; margin-bottom:6px;}
-.elvis-role{color:var(--gold); font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; margin-bottom:22px; display:block;}
-.elvis-grid p{color:rgba(216,230,221,.8); margin-bottom:16px; max-width:32rem;}
-.elvis-tags{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; list-style:none;}
-.elvis-tags span{font-size:.76rem; border:1px solid rgba(216,230,221,.28); color:rgba(216,230,221,.85); padding:6px 14px; border-radius:20px;}
-
-@media (max-width:840px){ .elvis-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================
-   BIRDS & NATURE — immersive
-   ========================================================== */
-.birds-immersive{background:var(--paper); position:relative;}
-.birds-immersive .section-title{max-width:14ch;}
-.birds-media-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:16px; margin-top:48px;}
-.birds-media-grid .primary{aspect-ratio:16/10; overflow:hidden;}
-.birds-media-grid .secondary{display:grid; gap:16px;}
-.birds-media-grid .secondary > div{aspect-ratio:16/8; overflow:hidden;}
-.birds-media-grid img{width:100%; height:100%; object-fit:cover;}
-.birds-copy{max-width:46rem; margin-bottom:8px;}
-.birds-copy p{font-size:1.05rem; color:#4A4741;}
-
-@media (max-width:820px){ .birds-media-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================
-   WHY GALA NATURALEZA — few strong statements
-   ========================================================== */
-.why-section{background:#96bee0;}
-.why-list{display:flex; flex-direction:column; margin-top:40px;}
-.why-item{
-  display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
-  padding-block:28px; border-top:1px solid rgba(36,34,32,.14);
-}
-.why-list .why-item:last-child{border-bottom:1px solid rgba(36,34,32,.14);}
-.why-num{font-family:var(--serif); font-style:italic; color:var(--jungle); font-size:1.1rem;}
-.why-item h4{font-family:var(--serif); font-weight:600; font-size:1.3rem; margin-bottom:6px;}
-.why-item p{color:#4A4741; font-size:.96rem; max-width:38rem;}
-
-@media (max-width:640px){ .why-item{grid-template-columns:1fr;} .why-num{margin-bottom:6px;} }
-
-/* ==========================================================
-   REVIEWS
-   ========================================================== */
-.reviews-section{background:var(--paper);}
-.review-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
-.review-card{padding-top:24px; border-top:2px solid var(--coral);}
-.review-stars{color:var(--gold); font-size:.9rem; margin-bottom:14px; letter-spacing:.1em;}
-.review-quote{font-family:var(--serif); font-style:italic; font-size:1.15rem; line-height:1.45; margin-bottom:18px; color:var(--ink);}
-.review-author{font-size:.84rem; color:#6B6860; display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
-.review-author b{color:var(--ink); font-weight:600;}
-.trip-icon{width:15px; height:15px; fill:#00AF87; flex-shrink:0;}
-.trip-icon-lg{width:20px; height:20px; fill:#00AF87; flex-shrink:0; margin-left:6px;}
-
-@media (max-width:760px){ .review-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================
-   ACCESSORIES
-   ========================================================== */
-.accessories-section{background:#cdf7f0;}
-.accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
-.accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
-.accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
-.accessory-card p{font-size:.92rem; color:#4A4741; margin-bottom:0;}
-
-@media (max-width:640px){ .accessories-grid{grid-template-columns:1fr;} }
-
-/* ==========================================================
-   PAGE HERO — compact single-photo hero (inner pages)
-   ========================================================== */
-.page-hero{
-  position:relative; min-height:46vh; display:flex; align-items:flex-end;
-  overflow:hidden;
-}
-.page-hero .hero-slide{opacity:1;}
-.page-hero::after{
-  content:''; position:absolute; inset:0; z-index:1;
-  background:linear-gradient(0deg, rgba(24,22,20,.72) 0%, rgba(24,22,20,.3) 50%, rgba(24,22,20,.08) 75%);
-}
-.page-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:56px; padding-top:150px; max-width:36rem;}
-.page-hero-content h1{
-  font-family:var(--serif); font-weight:600; line-height:1.1;
-  font-size:clamp(1.8rem, 3.4vw, 2.6rem);
-}
-
-/* ==========================================================
-   CONTACT — intro band with WhatsApp CTA
-   ========================================================== */
-.contact-intro{background:var(--paper); padding-bottom:0;}
-.contact-whatsapp-band{
-  background:var(--ink); color:var(--paper);
-  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
-  gap:24px; padding:40px 48px; border-radius:2px;
-}
-.contact-whatsapp-band p{max-width:32rem; font-size:1.02rem; color:rgba(216,230,221,.85);}
-.btn-whatsapp{
-  display:inline-flex; align-items:center; gap:10px; flex-shrink:0;
-  background:var(--coral); color:#fff; padding:14px 26px; border-radius:2px;
-  font-weight:600; font-size:.9rem; text-transform:uppercase; letter-spacing:.03em;
-}
-.btn-whatsapp svg{width:18px; height:18px; fill:#fff;}
-.btn-whatsapp:hover{background:#701f18;}
-
-@media (max-width:600px){
-  .contact-whatsapp-band{padding:28px 24px; flex-direction:column; align-items:flex-start;}
-}
-
-/* ==========================================================
-   CONTACT — form + info grid
-   ========================================================== */
-.contact-grid{display:grid; grid-template-columns:1.3fr .9fr; gap:72px; align-items:start;}
-.contact-form .kicker{margin-bottom:6px;}
-.contact-form .section-title{margin-bottom:32px;}
-
-.field{margin-bottom:24px;}
-.field label{
-  display:block; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--lagoon); font-weight:600; margin-bottom:8px;
-}
-.field input, .field textarea{
-  width:100%; border:none; border-bottom:1.5px solid var(--paper-dim);
-  background:transparent; padding:10px 2px; font-family:var(--sans);
-  font-size:1rem; color:var(--ink);
-}
-.field textarea{min-height:120px; resize:vertical;}
-.field input:focus, .field textarea:focus{
-  outline:none; border-bottom-color:var(--coral);
-}
-.btn-send{
-  background:var(--coral); color:#fff; border:none; cursor:pointer;
-  padding:15px 32px; border-radius:2px; font-weight:600; font-size:.9rem;
-  text-transform:uppercase; letter-spacing:.03em;
-}
-.btn-send:hover{background:#701f18;}
-.contact-form-note{font-size:.78rem; color:#6B6860; margin-top:14px;}
-
-.contact-info-block{padding-bottom:26px; margin-bottom:26px; border-bottom:1px solid var(--paper-dim);}
-.contact-info-block:last-child{border-bottom:none; margin-bottom:0;}
-.contact-info-block h4{
-  font-size:.76rem; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--jungle); font-weight:600; margin-bottom:8px;
-}
-.contact-info-block p{font-family:var(--serif); font-size:1.15rem;}
-.contact-info-block a:hover{color:var(--coral);}
-
-@media (max-width:860px){ .contact-grid{grid-template-columns:1fr; gap:48px;} }
-
-/* ==========================================================
-   CONTACT — follow / social proof
-   ========================================================== */
-.contact-follow{background:var(--paper);}
-.insta-grid{
-  display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-top:40px; margin-bottom:56px;
-}
-.insta-grid .instagram-media{max-width:100% !important; min-width:0 !important; width:100% !important;}
-
-.channel-cards{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
-.channel-card{
-  display:flex; align-items:center; gap:14px;
-  border:1px solid var(--paper-dim); border-radius:2px; padding:20px 22px;
-  color:var(--ink);
-}
-.channel-card svg{width:26px; height:26px; fill:var(--lagoon); flex-shrink:0;}
-.channel-card .name{display:block; font-family:var(--serif); font-weight:600; font-size:1rem;}
-.channel-card .desc{display:block; font-size:.8rem; color:#6B6860; margin-top:2px;}
-.channel-card:hover{border-color:var(--coral);}
-.channel-card:hover svg{fill:var(--coral);}
-.channel-card.is-placeholder{opacity:.55; cursor:default;}
-.channel-card.is-placeholder:hover{border-color:var(--paper-dim);}
-.channel-card.is-placeholder:hover svg{fill:var(--lagoon);}
-
-@media (max-width:900px){ .insta-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:640px){
-  .insta-grid{grid-template-columns:repeat(2,1fr);}
-  .channel-cards{grid-template-columns:1fr;}
-}
-
-/* ==========================================================
-   FOOTER — compact, left-aligned, multi-column
-   ========================================================== */
-footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
-
-.footer-grid{
-  display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr;
-  gap:40px; margin-bottom:56px;
-}
-.footer-brand-name{font-family:var(--serif); font-weight:600; color:var(--paper); font-size:1.3rem; margin-bottom:10px;}
-.footer-tagline{font-size:.85rem; color:#9A9C82; max-width:22ch;}
-
-.footer-col h5{color:var(--paper); font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; margin-bottom:16px;}
-.footer-col ul{list-style:none; padding:0; margin:0;}
-.footer-col li{margin-bottom:10px; font-size:.88rem;}
-.footer-col a:hover{color:var(--coral);}
-
-.footer-credit{margin-top:14px; font-size:.72rem; color:#7A7C64; text-align:center;}
-.footer-credit a{color:#9A9C82;}
-.footer-credit a:hover{color:var(--coral);}
-
-.footer-social{display:flex; gap:12px; margin-top:6px;}
-.footer-social a{
-  display:flex; align-items:center; justify-content:center;
-  width:36px; height:36px; border-radius:50%;
-  border:1px solid rgba(216,230,221,.22);
-  color:#B9BBA0;
-}
-.footer-social a:hover{border-color:var(--coral); color:var(--coral);}
-.footer-social svg{width:16px; height:16px; fill:currentColor;}
-
-.footer-bottom{
-  border-top:1px solid rgba(216,230,221,.14); padding-top:22px;
-  display:flex; justify-content:space-between; align-items:center;
-  font-size:.78rem; color:#8A8C74; flex-wrap:wrap; gap:12px;
-}
-.footer-lang{display:flex; gap:8px; font-size:.78rem; color:#8A8C74;}
-.footer-lang span[aria-current]{color:var(--gold); font-weight:600;}
-.footer-lang a:hover{color:var(--coral);}
-
-@media (max-width:860px){ .footer-grid{grid-template-columns:1fr 1fr;} }
-@media (max-width:520px){ .footer-grid{grid-template-columns:1fr;} .footer-bottom{flex-direction:column; align-items:flex-start;} }
-
-/* ==========================================================
-   WhatsApp floating — brand, discreet, expands on hover
-   ========================================================== */
-.wa-float{
-  position:fixed; bottom:24px; right:24px; z-index:70;
-  display:flex; align-items:center; gap:10px;
-  background:#1E1E1B; color:var(--paper);
-  height:52px; padding:0 16px; border-radius:26px;
-  box-shadow:0 6px 18px rgba(0,0,0,.28);
-  overflow:hidden;
-}
-.wa-float svg{width:22px; height:22px; fill:#25D366; flex-shrink:0;}
-.wa-float span{
-  font-size:.84rem; font-weight:600; white-space:nowrap;
-  max-width:0; opacity:0; transition:max-width .25s ease, opacity .2s ease, margin .25s ease;
-}
-.wa-float:hover span, .wa-float:focus-visible span{max-width:140px; opacity:1; margin-left:2px;}
-
-@media (max-width:600px){
-  .wa-float{ bottom:18px; right:18px; height:52px; width:52px; padding:0; justify-content:center; border-radius:50%; }
-  .wa-float span{ display:none; }
-}
-
-/* ==========================================================
-   MOBILE FINE-TUNING — phones (~iPhone width and below)
-   ========================================================== */
-@media (max-width:480px){
-  .wrap{padding:0 20px;}
-  section{padding-block:clamp(56px, 14vw, 88px);}
-
-  .topbar{padding:14px 20px;}
-  .brand-name{font-size:.95rem;}
-  .brand img{height:44px; width:44px;}
-
-  .hero-content{padding-top:120px; padding-bottom:44px; max-width:100%;}
-  .hero-content h1{font-size:clamp(1.7rem, 7vw, 2.1rem); max-width:12ch;}
-  .hero-sub{font-size:.9rem; max-width:100%;}
-  .hero-kicker{font-size:.68rem; letter-spacing:.1em;}
-
-  .section-title{font-size:clamp(1.5rem, 6vw, 1.9rem);}
-  .kicker{font-size:.92rem;}
-
-  .tour-feature{padding-block:36px; gap:24px;}
-  .tour-feature h3{font-size:1.3rem;}
-  .tour-meta{gap:18px; flex-wrap:wrap;}
-
-  .elvis-statement{font-size:1.4rem;}
-  .elvis-grid{gap:28px;}
-  .elvis-tags{gap:8px;}
-  .elvis-tags span{font-size:.72rem; padding:5px 11px;}
-
-  .birds-media-grid{gap:10px;}
-
-  .why-item{padding-block:20px; gap:6px;}
-  .why-item h4{font-size:1.1rem;}
-
-  .review-grid{gap:28px;}
-  .review-quote{font-size:1.02rem;}
-
-  .accessories-grid{gap:24px;}
-
-  .footer-grid{gap:32px; margin-bottom:36px;}
-  .footer-brand-name{font-size:1.15rem;}
-  .footer-bottom{text-align:left;}
-
-  .wa-float{bottom:16px; right:16px;}
-
-  .talk-hero-content{padding-top:110px; padding-bottom:40px;}
-  .talk-hero-content h1{font-size:clamp(2rem, 9vw, 2.6rem);}
-
-  .marquee{padding-block:14px;}
-  .marquee-track{gap:1.4rem;}
-  .marquee-track span{font-size:.92rem;}
-
-  .strip-item span{font-size:1.05rem; left:14px; bottom:14px;}
-
-  .options-grid{gap:16px;}
-  .option-card{padding:30px 22px;}
-  .option-card .opt-value{font-size:1rem; word-break:break-word;}
-  .opt-btn{width:100%; justify-content:center; padding:15px 20px;}
-}
-
-/* Landscape phones / small tablets where the nav drawer needs full height comfortably */
-@media (max-width:900px) and (max-height:420px){
-  nav{padding-top:72px;}
-}
-
-/* ==========================================================
-   CONTACT — REDESIGN v2: minimal invitation to talk
-   (replaces the old form/grid/follow structure)
-   ========================================================== */
-
-/* Hero: "LET'S TALK" kicker + short headline, reuses .page-hero image mechanics */
-.talk-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:64px; padding-top:170px; max-width:34rem;}
-.talk-hero-content h1{
-  font-family:var(--serif); font-weight:600; line-height:1.05;
-  font-size:clamp(2.4rem, 5.5vw, 4.2rem); margin-top:6px;
-}
-
-/* Marquee — CSS-only infinite scroll of short phrases */
-.marquee{
-  background:var(--ink); color:var(--paper);
-  overflow:hidden; white-space:nowrap; padding-block:22px;
-}
-.marquee-track{
-  display:inline-flex; gap:2.5rem;
-  animation:marquee-scroll 32s linear infinite;
-}
-.marquee-track span{
-  font-family:var(--serif); font-style:italic; font-size:1.15rem;
-  letter-spacing:.02em; color:rgba(216,230,221,.85); flex-shrink:0;
-}
-.marquee-track span.dot{color:var(--gold); font-style:normal;}
-@keyframes marquee-scroll{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-@media (prefers-reduced-motion: reduce){
-  .marquee-track{animation:none; overflow-x:auto;}
-}
-
-/* Destination strip — native CSS scroll-snap, no carousel library */
-.destination-strip{background:var(--paper); padding-block:0;}
-.strip-scroller{
-  display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
-  padding:0 32px 8px; margin:0 -32px;
-  justify-content:center;
-  scrollbar-width:thin;
-}
-.strip-item{
-  position:relative; flex:0 0 min(78vw, 420px); aspect-ratio:3/4;
-  scroll-snap-align:start; overflow:hidden;
-}
-.strip-item img{width:100%; height:100%; object-fit:cover;}
-.strip-item::after{
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(0deg, rgba(24,22,20,.6) 0%, rgba(24,22,20,0) 45%);
-}
-.strip-item span{
-  position:absolute; left:20px; bottom:20px; z-index:2;
-  color:var(--paper); font-family:var(--serif); font-weight:600;
-  font-size:1.3rem; letter-spacing:.02em; text-transform:uppercase;
-}
-@media (max-width:640px){ .strip-item{flex-basis:82vw;} .strip-scroller{justify-content:flex-start;} }
-
-/* Contact options — WhatsApp (primary) + Email (secondary) */
-.contact-options{background:var(--paper);}
-.options-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:0;}
-.option-card{padding:44px 40px; border-radius:2px;}
-.option-card.is-primary{background:var(--ink); color:var(--paper);}
-.option-card.is-secondary{background:var(--paper-dim); color:var(--ink);}
-.option-card .opt-label{
-  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
-  display:block; margin-bottom:14px;
-}
-.option-card.is-primary .opt-label{color:var(--gold);}
-.option-card.is-secondary .opt-label{color:var(--lagoon);}
-.option-card p{font-size:1.05rem; margin-bottom:26px; max-width:26rem;}
-.option-card.is-primary p{color:rgba(216,230,221,.85);}
-.option-card.is-secondary p{color:#4A4741;}
-.option-card .opt-value{font-family:var(--serif); font-size:1.15rem; display:block; margin-bottom:22px;}
-.opt-btn{
-  display:inline-flex; align-items:center; gap:10px;
-  font-size:.88rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
-  padding:15px 30px; border-radius:2px;
-}
-.option-card.is-primary .opt-btn{background:var(--coral); color:#fff;}
-.option-card.is-primary .opt-btn:hover{background:#701f18;}
-.option-card.is-secondary .opt-btn{background:var(--ink); color:var(--paper);}
-.option-card.is-secondary .opt-btn:hover{background:var(--coral);}
-
-@media (max-width:760px){ .options-grid{grid-template-columns:1fr;} .option-card{padding:36px 28px;} }
-
-/* ==========================================================
-   TOURS PAGE — new sections (append to end of styles.css)
-   ========================================================== */
-
-   #cozumel, #yucatan, #chiapas{ scroll-margin-top:90px; }
-
-   .tours-jump{ background:var(--paper-dim); padding-block:18px; }
-   .tours-jump ul{ display:flex; justify-content:center; gap:36px; list-style:none; flex-wrap:wrap; }
-   .tours-jump a{
-     font-size:.8rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
-     color:var(--lagoon); border-bottom:1px solid transparent; padding-bottom:3px;
-   }
-   .tours-jump a:hover{ color:var(--coral); border-color:var(--coral); }
-   
-   .tour-formats{ background:var(--paper); }
-   .tour-formats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:40px; }
-   .tour-format-item{ padding-top:28px; border-top:1px solid rgba(36,34,32,.14); }
-   .tour-format-item .format-meta{
-     font-size:.8rem; letter-spacing:.06em; text-transform:uppercase;
-     color:var(--jungle); margin-bottom:12px; display:block;
-   }
-   .tour-format-item h4{ font-family:var(--serif); font-weight:600; font-size:1.3rem; margin-bottom:10px; }
-   .tour-format-item p{ color:#4A4741; font-size:.96rem; max-width:34rem; }
-   
-   @media (max-width:760px){ .tour-formats-grid{ grid-template-columns:1fr; } }
-   
-   .what-to-expect{ background:var(--paper-dim); }
-   .what-to-expect .section-title{ max-width:20ch; }
-   .what-to-expect p{ color:#4A4741; font-size:1.05rem; max-width:42rem; }
-   .what-to-expect p.lead{
-     font-family:var(--serif); font-style:italic; font-size:1.25rem;
-     color:var(--lagoon); margin-bottom:18px;
-   }
-   
-   .tours-final-cta{ background:var(--ink); color:var(--paper); text-align:center; }
-   .tours-final-cta h2{
-     font-family:var(--serif); font-weight:600;
-     font-size:clamp(1.8rem,3.4vw,2.6rem); margin-bottom:28px;
-   }
-   .tours-final-cta .hero-cta{ justify-content:center; margin:0 auto; display:inline-flex; }
-   
-   @media (max-width:480px){
-     .tours-jump ul{ gap:20px; }
-     .tour-formats-grid{ gap:28px; }
-   }
-   /* ==========================================================
-   WELCOME / INTRO SECTION (Home) — append to end of styles.css
-   ========================================================== */
-.intro-section{ background:var(--paper); }
-.intro-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center; }
-.intro-copy p{ font-size:1.08rem; color:#4A4741; max-width:34rem; }
-.intro-media{ aspect-ratio:4/3; overflow:hidden; }
-.intro-media img{ width:100%; height:100%; object-fit:cover; }
-
-@media (max-width:840px){ .intro-grid{ grid-template-columns:1fr; gap:32px; } }
+  .nav-toggle svg{width:24px; height:24px;}
+  
+  /* Menú mobile: drawer a pantalla completa, toggled por main.js
+     (clase .is-open en <nav>, controlada por el botón .nav-toggle) */
+  @media (max-width:900px){
+    .topbar{padding:18px 24px;}
+    nav{
+      position:fixed; top:0; left:0; right:0; height:100dvh;
+      background:var(--nav-footer);
+      display:flex; align-items:flex-start; justify-content:center;
+      transform:translateY(-100%); transition:transform .35s ease;
+      z-index:55; overflow-y:auto;
+    }
+    nav.is-open{transform:translateY(0);}
+    nav ul{flex-direction:column; align-items:flex-start; gap:0; width:100%; max-width:340px; padding:130px 24px 0;}
+    nav li{width:100%; border-bottom:none;}
+    nav li:first-child{border-top:none;}
+    nav a{
+      display:block; padding:16px 0; text-align:left;
+      font-size:1.7rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:.01em;
+    }
+    .mobile-lang-row{
+      display:flex; align-items:center; gap:10px;
+      padding:16px 0; font-size:1.1rem; font-weight:700; text-transform:uppercase;
+      color:var(--paper);
+    }
+    .mobile-lang-row svg{width:20px; height:20px; flex-shrink:0;}
+    .mobile-lang-row .lang-switch{font-size:1.1rem; text-transform:uppercase; gap:8px;}
+    .mobile-book{
+      display:block; width:calc(100% - 48px); max-width:292px;
+      margin:28px 24px 0; padding:18px 0; text-align:center;
+      background:var(--paper); color:var(--nav-footer);
+      font-weight:700; text-transform:uppercase; letter-spacing:.02em;
+      border-radius:6px; font-size:1rem;
+    }
+    .header-actions{gap:14px;}
+    .header-actions > .lang-switch{display:none;}
+    .book-link{display:none;}
+    .nav-toggle{display:block;}
+  }
+  
+  /* Landscape en teléfonos / tablets chicas: el drawer necesita menos
+     padding arriba para no cortar los primeros links */
+  @media (max-width:900px) and (max-height:420px){
+    nav{padding-top:72px;}
+  }
+  
+  
+  /* ============================================================
+     3. HERO — Home (slider cinematográfico full-bleed)
+     Solo se usa en index.html. Las páginas internas usan
+     .page-hero en su lugar (sección 12).
+     El cambio de slide lo hace main.js (clase .is-active
+     rotando cada 6s entre los .hero-slide).
+     ============================================================ */
+  .hero-cinematic{
+    position:relative; min-height:100vh; display:flex; align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-slide{
+    position:absolute; inset:0; background-size:cover; background-position:center;
+    opacity:0; transition:opacity 1.2s ease;
+  }
+  .hero-slide.is-active{opacity:1;}
+  .hero-cinematic::after{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(24,22,20,.72) 0%, rgba(24,22,20,.28) 42%, rgba(24,22,20,.05) 65%);
+  }
+  .hero-content{position:relative; z-index:2; color:var(--paper); max-width:34rem; padding-bottom:clamp(56px, 7vw, 96px); padding-top:160px;}
+  .hero-kicker{font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; font-weight:600;}
+  .hero-content h1{
+    font-family:var(--serif); font-weight:600; line-height:1.08;
+    font-size:clamp(1.9rem, 3.4vw, 2.8rem); max-width:13ch; margin-bottom:20px;
+  }
+  .hero-sub{font-size:clamp(.92rem, 1vw, 1rem); color:rgba(216,230,221,.88); max-width:30rem; margin-bottom:26px;}
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:.92rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase;
+    color:var(--paper); border-bottom:2px solid var(--coral); padding-bottom:6px;
+  }
+  .hero-cta:hover{color:var(--coral);}
+  
+  
+  /* ============================================================
+     4. TIPOGRAFÍA / SHELL DE SECCIÓN
+     Clases genéricas reutilizadas en TODAS las secciones de
+     TODAS las páginas (kicker, título de sección, link con
+     subrayado, animación reveal-on-scroll).
+     ============================================================ */
+  section{padding-block:clamp(80px, 10vw, 140px);}
+  .kicker{font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:1.05rem; margin-bottom:14px;}
+  .section-title{font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem, 3.4vw, 2.8rem); max-width:22ch; margin-bottom:20px;}
+  .section-link{font-weight:600; font-size:.88rem; text-transform:uppercase; letter-spacing:.03em; border-bottom:1px solid var(--coral); padding-bottom:2px; display:inline-block;}
+  .section-link:hover{color:var(--coral);}
+  /* .reveal + .is-visible: fade/slide sutil controlado por main.js
+     vía IntersectionObserver. Respeta prefers-reduced-motion (sección 1). */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.is-visible{opacity:1; transform:none;}
+  
+  
+  /* ============================================================
+     5. WELCOME / INTRO — solo Home
+     Sección justo después del Hero. Reemplazó al bloque de
+     "Tours Preview" que antes vivía aquí (ver sección 6).
+     Texto a la izquierda + foto (img/welcome.jpg) a la derecha.
+     ============================================================ */
+  .intro-section{ background:var(--paper); }
+  .intro-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:64px; align-items:center; }
+  .intro-media{ aspect-ratio:4/3; overflow:hidden; }
+  .intro-media img{ width:100%; height:100%; object-fit:cover; }
+  
+  .intro-eyebrow{
+    font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:.9rem; margin:0;
+  }
+  .intro-tagline{
+    font-size:.78rem; letter-spacing:.04em; color:var(--jungle); max-width:38ch; margin:10px 0 0;
+  }
+  .intro-rule{ width:40px; height:2px; background:var(--coral); margin:18px 0 22px; }
+  .intro-headline{
+    font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,3vw,2.1rem);
+    line-height:1.25; color:var(--ink); max-width:22ch; margin:0 0 24px;
+  }
+  .intro-body{ font-size:1rem; line-height:1.7; color:#4A4741; max-width:40ch; margin:0 0 16px; }
+  .intro-closing{
+    font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:1.05rem;
+    line-height:1.5; max-width:32ch; margin:6px 0 0;
+  }
+  
+  @media (max-width:840px){ .intro-grid{ grid-template-columns:1fr; gap:32px; } }
+  
+  
+  /* ============================================================
+     6. TOURS PREVIEW (clases .tour-feature)
+     Usadas en tours.html (Cozumel / Yucatán / Chiapas, dentro de
+     UNA sola .tours-editorial — ver sección 13 para el porqué).
+     Estas clases YA NO se usan en index.html (esa sección se
+     reemplazó por Welcome/Intro, sección 5).
+     ============================================================ */
+  .tours-editorial{background:var(--paper);}
+  .tour-feature{
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+    padding-block:56px; border-top:1px solid var(--paper-dim);
+  }
+  .tour-feature:last-of-type{border-bottom:1px solid var(--paper-dim);}
+  .tour-feature.is-reverse .tour-feature-media{order:2;}
+  .tour-feature-media{aspect-ratio:4/3; overflow:hidden;}
+  .tour-feature-media img{width:100%; height:100%; object-fit:cover; transition:transform .5s ease;}
+  .tour-feature:hover .tour-feature-media img{transform:scale(1.04);}
+  .tour-num{font-family:var(--serif); font-style:italic; color:var(--jungle); font-size:1rem; margin-bottom:14px;}
+  .tour-place{font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:var(--lagoon); font-weight:600; margin-bottom:10px;}
+  .tour-feature h3{font-family:var(--serif); font-weight:600; font-size:clamp(1.5rem,2.4vw,2.1rem); margin-bottom:14px;}
+  .tour-species{font-family:var(--serif); font-style:italic; color:var(--lagoon); font-size:.92rem; margin-bottom:16px;}
+  .tour-feature p.desc{color:#4A4741; font-size:.98rem; max-width:34rem; margin-bottom:22px;}
+  .tour-meta{display:flex; gap:28px; margin-bottom:24px; font-size:.8rem; color:#6B6860;}
+  .tour-meta b{display:block; color:var(--ink); font-size:.92rem; font-family:var(--serif);}
+  
+  @media (max-width:820px){
+    .tour-feature, .tour-feature.is-reverse{grid-template-columns:1fr;}
+    .tour-feature.is-reverse .tour-feature-media{order:0;}
+  }
+  
+  
+  /* ============================================================
+     7. ELVIS — solo Home
+     Fondo oscuro (--ink). Termina con un link a Tours
+     ("Explore Tours →" / "Explorar los Tours →").
+     ============================================================ */
+  .elvis-section{background:var(--ink); color:var(--paper);}
+  .elvis-section .kicker{color:var(--gold);}
+  .elvis-statement{font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,3.6vw,3rem); line-height:1.12; max-width:16ch; margin-bottom:56px;}
+  .elvis-grid{display:grid; grid-template-columns:.75fr 1.25fr; gap:64px; align-items:center;}
+  .elvis-grid img{width:100%; aspect-ratio:3/4; object-fit:cover;}
+  .elvis-grid h3{font-family:var(--serif); font-weight:600; font-size:1.7rem; margin-bottom:6px;}
+  .elvis-role{color:var(--gold); font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; margin-bottom:22px; display:block;}
+  .elvis-grid p{color:rgba(216,230,221,.8); margin-bottom:16px; max-width:32rem;}
+  .elvis-tags{display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; list-style:none;}
+  .elvis-tags span{font-size:.76rem; border:1px solid rgba(216,230,221,.28); color:rgba(216,230,221,.85); padding:6px 14px; border-radius:20px;}
+  
+  @media (max-width:840px){ .elvis-grid{grid-template-columns:1fr;} }
+  
+  
+  /* ============================================================
+     8. BIRDS & NATURE — solo Home
+     Termina con un link a Tours, igual que Elvis.
+     ============================================================ */
+  .birds-immersive{background:var(--paper); position:relative;}
+  .birds-immersive .section-title{max-width:14ch;}
+  .birds-media-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:16px; margin-top:48px;}
+  .birds-media-grid .primary{aspect-ratio:16/10; overflow:hidden;}
+  .birds-media-grid .secondary{display:grid; gap:16px;}
+  .birds-media-grid .secondary > div{aspect-ratio:16/8; overflow:hidden;}
+  .birds-media-grid img{width:100%; height:100%; object-fit:cover;}
+  .birds-copy{max-width:46rem; margin-bottom:8px;}
+  .birds-copy p{font-size:1.05rem; color:#4A4741;}
+  
+  @media (max-width:820px){ .birds-media-grid{grid-template-columns:1fr;} }
+  
+  
+  /* ============================================================
+     9. WHY GALA NATURALEZA — solo Home
+     ⚠️ NOTA: el fondo (#96bee0, azul) es un hex fijo que no
+     corresponde a ninguna variable de la paleta documentada
+     (ver sección 1). Confirmar con diseño si es intencional o
+     un valor de prueba que quedó pegado.
+     ============================================================ */
+  .why-section{background:#96bee0;}
+  .why-list{display:flex; flex-direction:column; margin-top:40px;}
+  .why-item{
+    display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
+    padding-block:28px; border-top:1px solid rgba(36,34,32,.14);
+  }
+  .why-list .why-item:last-child{border-bottom:1px solid rgba(36,34,32,.14);}
+  .why-num{font-family:var(--serif); font-style:italic; color:var(--jungle); font-size:1.1rem;}
+  .why-item h4{font-family:var(--serif); font-weight:600; font-size:1.3rem; margin-bottom:6px;}
+  .why-item p{color:#4A4741; font-size:.96rem; max-width:38rem;}
+  
+  @media (max-width:640px){ .why-item{grid-template-columns:1fr;} .why-num{margin-bottom:6px;} }
+  
+  
+  /* ============================================================
+     10. REVIEWS — solo Home
+     .trip-icon / .trip-icon-lg son el ícono de Tripadvisor
+     (SVG dibujado a mano, no un ícono de librería).
+     ============================================================ */
+  .reviews-section{background:var(--paper);}
+  .review-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
+  .review-card{padding-top:24px; border-top:2px solid var(--coral);}
+  .review-stars{color:var(--gold); font-size:.9rem; margin-bottom:14px; letter-spacing:.1em;}
+  .review-quote{font-family:var(--serif); font-style:italic; font-size:1.15rem; line-height:1.45; margin-bottom:18px; color:var(--ink);}
+  .review-author{font-size:.84rem; color:#6B6860; display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+  .review-author b{color:var(--ink); font-weight:600;}
+  .trip-icon{width:15px; height:15px; fill:#00AF87; flex-shrink:0;}
+  .trip-icon-lg{width:20px; height:20px; fill:#00AF87; flex-shrink:0; margin-left:6px;}
+  
+  @media (max-width:760px){ .review-grid{grid-template-columns:1fr;} }
+  
+  
+  /* ============================================================
+     11. ACCESSORIES — solo Home
+     Catálogo informativo (gorra/playera), sin ecommerce ni precio.
+     ⚠️ NOTA: mismo caso que WHY arriba — el fondo (#cdf7f0) es
+     un mint brillante fuera de la paleta documentada. Confirmar
+     si es intencional.
+     ============================================================ */
+  .accessories-section{background:#cdf7f0;}
+  .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
+  .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
+  .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
+  .accessory-card p{font-size:.92rem; color:#4A4741; margin-bottom:0;}
+  
+  @media (max-width:640px){ .accessories-grid{grid-template-columns:1fr;} }
+  
+  
+  /* ============================================================
+     12. PAGE HERO — hero compacto de páginas internas
+     Usado por tours.html (con .hero-kicker/.hero-sub reutilizados
+     de la sección 3) y por contact.html (que además usa la
+     variante .talk-hero-content, ver sección 14).
+     ============================================================ */
+  .page-hero{
+    position:relative; min-height:46vh; display:flex; align-items:flex-end;
+    overflow:hidden;
+  }
+  .page-hero .hero-slide{opacity:1;}
+  .page-hero::after{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(24,22,20,.72) 0%, rgba(24,22,20,.3) 50%, rgba(24,22,20,.08) 75%);
+  }
+  .page-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:56px; padding-top:150px; max-width:36rem;}
+  .page-hero-content h1{
+    font-family:var(--serif); font-weight:600; line-height:1.1;
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+  }
+  
+  
+  /* ============================================================
+     13. TOURS PAGE — nav interna, formatos, "qué esperar"
+     Solo tours.html. Los 3 destinos (Cozumel/Yucatán/Chiapas)
+     viven DENTRO de una sola .tours-editorial (sección 6) para
+     que el padding-block de la sección 4 no se triplique entre
+     destinos — si algún día se vuelven a separar en <section>
+     individuales, va a reaparecer el espacio muerto excesivo.
+     ============================================================ */
+  #cozumel, #yucatan, #chiapas{ scroll-margin-top:90px; } /* para que el header fijo no tape el ancla al hacer scroll */
+  
+  .tours-jump{ background:var(--paper-dim); padding-block:18px; }
+  .tours-jump ul{ display:flex; justify-content:center; gap:36px; list-style:none; flex-wrap:wrap; }
+  .tours-jump a{
+    font-size:.8rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--lagoon); border-bottom:1px solid transparent; padding-bottom:3px;
+  }
+  .tours-jump a:hover{ color:var(--coral); border-color:var(--coral); }
+  
+  .tour-formats{ background:var(--paper); padding-top:0; }
+  .tour-formats-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:40px; }
+  .tour-format-item{ padding-top:28px; border-top:1px solid rgba(36,34,32,.14); }
+  .tour-format-item .format-meta{
+    font-size:.8rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--jungle); margin-bottom:12px; display:block;
+  }
+  .tour-format-item h4{ font-family:var(--serif); font-weight:600; font-size:1.3rem; margin-bottom:10px; }
+  .tour-format-item p{ color:#4A4741; font-size:.96rem; max-width:34rem; }
+  
+  @media (max-width:760px){ .tour-formats-grid{ grid-template-columns:1fr; } }
+  
+  .what-to-expect{ background:var(--paper-dim); padding-top:0; }
+  .what-to-expect .section-title{ max-width:20ch; }
+  .what-to-expect p{ color:#4A4741; font-size:1.05rem; max-width:42rem; }
+  .what-to-expect p.lead{
+    font-family:var(--serif); font-style:italic; font-size:1.25rem;
+    color:var(--lagoon); margin-bottom:18px;
+  }
+  
+  /* NO SE USA ACTUALMENTE — se quitó manualmente de tours.html porque
+     se sentía redundante después de los CTAs de WhatsApp por destino.
+     Se deja aquí por si se decide reincorporar; si no, se puede borrar
+     con seguridad (no rompe nada más). */
+  .tours-final-cta{ background:var(--ink); color:var(--paper); text-align:center; }
+  .tours-final-cta h2{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(1.8rem,3.4vw,2.6rem); margin-bottom:28px;
+  }
+  .tours-final-cta .hero-cta{ justify-content:center; margin:0 auto; display:inline-flex; }
+  
+  @media (max-width:480px){
+    .tours-jump ul{ gap:20px; }
+    .tour-formats-grid{ gap:28px; }
+  }
+  
+  
+  /* ============================================================
+     14. CONTACT PAGE — hero, marquee, destination strip, opciones
+     Todo esto es el "REDESIGN v2" de Contact: hero de una foto +
+     headline corto ("¿Listo para explorar?"), un marquee de texto
+     en loop, una tira de fotos por destino con scroll-snap, y
+     2 tarjetas de contacto (WhatsApp primario / Email secundario).
+     No hay formulario — nunca lo hubo en esta versión.
+     ============================================================ */
+  .talk-hero-content{position:relative; z-index:2; color:var(--paper); padding-bottom:64px; padding-top:170px; max-width:34rem;}
+  .talk-hero-content h1{
+    font-family:var(--serif); font-weight:600; line-height:1.05;
+    font-size:clamp(2.4rem, 5.5vw, 4.2rem); margin-top:6px;
+  }
+  
+  /* Marquee — loop infinito solo con CSS (sin librería de carrusel) */
+  .marquee{
+    background:var(--ink); color:var(--paper);
+    overflow:hidden; white-space:nowrap; padding-block:22px;
+  }
+  .marquee-track{
+    display:inline-flex; gap:2.5rem;
+    animation:marquee-scroll 32s linear infinite;
+  }
+  .marquee-track span{
+    font-family:var(--serif); font-style:italic; font-size:1.15rem;
+    letter-spacing:.02em; color:rgba(216,230,221,.85); flex-shrink:0;
+  }
+  .marquee-track span.dot{color:var(--gold); font-style:normal;}
+  @keyframes marquee-scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none; overflow-x:auto;}
+  }
+  
+  /* Destination strip — scroll-snap nativo, sin librería de carrusel */
+  .destination-strip{background:var(--paper); padding-block:0;}
+  .strip-scroller{
+    display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:0 32px 8px; margin:0 -32px;
+    justify-content:center;
+    scrollbar-width:thin;
+  }
+  .strip-item{
+    position:relative; flex:0 0 min(78vw, 420px); aspect-ratio:3/4;
+    scroll-snap-align:start; overflow:hidden;
+  }
+  .strip-item img{width:100%; height:100%; object-fit:cover;}
+  .strip-item::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(24,22,20,.6) 0%, rgba(24,22,20,0) 45%);
+  }
+  .strip-item span{
+    position:absolute; left:20px; bottom:20px; z-index:2;
+    color:var(--paper); font-family:var(--serif); font-weight:600;
+    font-size:1.3rem; letter-spacing:.02em; text-transform:uppercase;
+  }
+  @media (max-width:640px){ .strip-item{flex-basis:82vw;} .strip-scroller{justify-content:flex-start;} }
+  
+  /* Opciones de contacto — WhatsApp (primaria) + Email (secundaria) */
+  .contact-options{background:var(--paper);}
+  .options-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:0;}
+  .option-card{padding:44px 40px; border-radius:2px;}
+  .option-card.is-primary{background:var(--ink); color:var(--paper);}
+  .option-card.is-secondary{background:var(--paper-dim); color:var(--ink);}
+  .option-card .opt-label{
+    font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+    display:block; margin-bottom:14px;
+  }
+  .option-card.is-primary .opt-label{color:var(--gold);}
+  .option-card.is-secondary .opt-label{color:var(--lagoon);}
+  .option-card p{font-size:1.05rem; margin-bottom:26px; max-width:26rem;}
+  .option-card.is-primary p{color:rgba(216,230,221,.85);}
+  .option-card.is-secondary p{color:#4A4741;}
+  .option-card .opt-value{font-family:var(--serif); font-size:1.15rem; display:block; margin-bottom:22px;}
+  .opt-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:.88rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
+    padding:15px 30px; border-radius:2px;
+  }
+  .option-card.is-primary .opt-btn{background:var(--coral); color:#fff;}
+  .option-card.is-primary .opt-btn:hover{background:#701f18;}
+  .option-card.is-secondary .opt-btn{background:var(--ink); color:var(--paper);}
+  .option-card.is-secondary .opt-btn:hover{background:var(--coral);}
+  
+  @media (max-width:760px){ .options-grid{grid-template-columns:1fr;} .option-card{padding:36px 28px;} }
+  
+  
+  /* ============================================================
+     15. FOOTER — todas las páginas
+     ============================================================ */
+  footer.site{background:var(--nav-footer); color:#B9BBA0; padding:72px 0 28px;}
+  
+  .footer-grid{
+    display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr;
+    gap:40px; margin-bottom:56px;
+  }
+  .footer-brand-name{font-family:var(--serif); font-weight:600; color:var(--paper); font-size:1.3rem; margin-bottom:10px;}
+  .footer-tagline{font-size:.85rem; color:#9A9C82; max-width:22ch;}
+  
+  .footer-col h5{color:var(--paper); font-size:.8rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600; margin-bottom:16px;}
+  .footer-col ul{list-style:none; padding:0; margin:0;}
+  .footer-col li{margin-bottom:10px; font-size:.88rem;}
+  .footer-col a:hover{color:var(--coral);}
+  
+  .footer-credit{margin-top:14px; font-size:.72rem; color:#7A7C64; text-align:center;}
+  .footer-credit a{color:#9A9C82;}
+  .footer-credit a:hover{color:var(--coral);}
+  
+  .footer-social{display:flex; gap:12px; margin-top:6px;}
+  .footer-social a{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid rgba(216,230,221,.22);
+    color:#B9BBA0;
+  }
+  .footer-social a:hover{border-color:var(--coral); color:var(--coral);}
+  .footer-social svg{width:16px; height:16px; fill:currentColor;}
+  
+  .footer-bottom{
+    border-top:1px solid rgba(216,230,221,.14); padding-top:22px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:.78rem; color:#8A8C74; flex-wrap:wrap; gap:12px;
+  }
+  .footer-lang{display:flex; gap:8px; font-size:.78rem; color:#8A8C74;}
+  .footer-lang span[aria-current]{color:var(--gold); font-weight:600;}
+  .footer-lang a:hover{color:var(--coral);}
+  
+  @media (max-width:860px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:520px){ .footer-grid{grid-template-columns:1fr;} .footer-bottom{flex-direction:column; align-items:flex-start;} }
+  
+  
+  /* ============================================================
+     16. WHATSAPP FLOTANTE — todas las páginas
+     Botón fijo, se expande en hover para mostrar el texto.
+     ============================================================ */
+  .wa-float{
+    position:fixed; bottom:24px; right:24px; z-index:70;
+    display:flex; align-items:center; gap:10px;
+    background:#1E1E1B; color:var(--paper);
+    height:52px; padding:0 16px; border-radius:26px;
+    box-shadow:0 6px 18px rgba(0,0,0,.28);
+    overflow:hidden;
+  }
+  .wa-float svg{width:22px; height:22px; fill:#25D366; flex-shrink:0;}
+  .wa-float span{
+    font-size:.84rem; font-weight:600; white-space:nowrap;
+    max-width:0; opacity:0; transition:max-width .25s ease, opacity .2s ease, margin .25s ease;
+  }
+  .wa-float:hover span, .wa-float:focus-visible span{max-width:140px; opacity:1; margin-left:2px;}
+  
+  @media (max-width:600px){
+    .wa-float{ bottom:18px; right:18px; height:52px; width:52px; padding:0; justify-content:center; border-radius:50%; }
+    .wa-float span{ display:none; }
+  }
+  
+  
+  /* ============================================================
+     17. MEDIA QUERIES GLOBALES — mobile fine-tuning
+     Ajustes finos para teléfonos (~iPhone y más chico), agrupados
+     aquí en vez de repartidos, para que sea fácil ver TODO lo que
+     cambia en mobile en un solo lugar.
+     ============================================================ */
+  @media (max-width:480px){
+    .wrap{padding:0 20px;}
+    section{padding-block:clamp(56px, 14vw, 88px);}
+  
+    .topbar{padding:14px 20px;}
+    .brand-name{font-size:.95rem;}
+    .brand img{height:44px; width:44px;}
+  
+    /* Hero de Home */
+    .hero-content{padding-top:120px; padding-bottom:44px; max-width:100%;}
+    .hero-content h1{font-size:clamp(1.7rem, 7vw, 2.1rem); max-width:12ch;}
+    .hero-sub{font-size:.9rem; max-width:100%;}
+    .hero-kicker{font-size:.68rem; letter-spacing:.1em;}
+  
+    /* Hero de páginas internas (Tours, Contact) — antes solo
+       .talk-hero-content (Contact) tenía este ajuste; se agrega
+       .page-hero-content genérico para que Tours no se vea con
+       demasiado espacio arriba del headline en pantallas chicas. */
+    .page-hero-content{padding-top:110px; padding-bottom:40px;}
+  
+    .section-title{font-size:clamp(1.5rem, 6vw, 1.9rem);}
+    .kicker{font-size:.92rem;}
+  
+    .tour-feature{padding-block:36px; gap:24px;}
+    .tour-feature h3{font-size:1.3rem;}
+    .tour-meta{gap:18px; flex-wrap:wrap;}
+  
+    .elvis-statement{font-size:1.4rem;}
+    .elvis-grid{gap:28px;}
+    .elvis-tags{gap:8px;}
+    .elvis-tags span{font-size:.72rem; padding:5px 11px;}
+  
+    .birds-media-grid{gap:10px;}
+  
+    .why-item{padding-block:20px; gap:6px;}
+    .why-item h4{font-size:1.1rem;}
+  
+    .review-grid{gap:28px;}
+    .review-quote{font-size:1.02rem;}
+  
+    .accessories-grid{gap:24px;}
+  
+    .footer-grid{gap:32px; margin-bottom:36px;}
+    .footer-brand-name{font-size:1.15rem;}
+    .footer-bottom{text-align:left;}
+  
+    .wa-float{bottom:16px; right:16px;}
+  
+    .talk-hero-content{padding-top:110px; padding-bottom:40px;}
+    .talk-hero-content h1{font-size:clamp(2rem, 9vw, 2.6rem);}
+  
+    .marquee{padding-block:14px;}
+    .marquee-track{gap:1.4rem;}
+    .marquee-track span{font-size:.92rem;}
+  
+    .strip-item span{font-size:1.05rem; left:14px; bottom:14px;}
+  
+    .options-grid{gap:16px;}
+    .option-card{padding:30px 22px;}
+    .option-card .opt-value{font-size:1rem; word-break:break-word;}
+    .opt-btn{width:100%; justify-content:center; padding:15px 20px;}
+  
+    /* Tours — jump nav y formatos */
+    .tours-jump ul{ gap:20px; }
+    .tour-formats-grid{ gap:28px; }
+  }
