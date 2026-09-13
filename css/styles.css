@@ -736,3 +736,97 @@
   @media (max-width:600px){
     .wa-bubble{ right:16px; bottom:78px; max-width:calc(100vw - 32px); }
   }
+
+/* ============================================================
+   18. GALLERY PAGE — collage asimétrico + panel flotante
+   Sin hero de texto: la página entra directo en el primer
+   bloque de fotos. Cada bloque = 1 destino, 5 fotos + 1 panel,
+   usando CSS Grid con grid-template-areas (sin JS, sin
+   librería de layout). .is-reverse espeja la composición.
+   ============================================================ */
+   .gallery-page main{ padding-top:0; }
+
+   .gallery-block{
+     display:grid;
+     grid-template-columns:repeat(6, 1fr);
+     grid-template-rows:repeat(5, 90px);
+     grid-template-areas:
+       "a a a b b c"
+       "a a a b b c"
+       "a a a d d d"
+       "p p . d d d"
+       "p p . e e .";
+     gap:16px;
+     margin:64px auto;
+     max-width:1280px;
+     padding:0 32px;
+   }
+   .gallery-block.is-reverse{
+     grid-template-areas:
+       "c b b a a a"
+       "c b b a a a"
+       "d d d a a a"
+       "d d d . p p"
+       ". e e . p p";
+   }
+   
+   .g-photo{ position:relative; overflow:hidden; }
+   .g-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+   .g-photo-1{ grid-area:a; }
+   .g-photo-2{ grid-area:b; }
+   .g-photo-3{ grid-area:c; }
+   .g-photo-4{ grid-area:d; }
+   .g-photo-5{ grid-area:e; }
+   
+   .gallery-panel{
+     grid-area:p; background:var(--paper); z-index:2;
+     display:flex; flex-direction:column; justify-content:center;
+     padding:24px 28px; box-shadow:0 6px 24px rgba(0,0,0,.08);
+   }
+   .gallery-panel .kicker{ margin-bottom:8px; font-size:.95rem; }
+   .gallery-panel h2{
+     font-family:var(--serif); font-weight:600;
+     font-size:clamp(1.4rem, 2vw, 1.8rem); margin-bottom:12px;
+   }
+   .gallery-panel a{
+     font-weight:600; font-size:.82rem; text-transform:uppercase;
+     letter-spacing:.03em; border-bottom:1px solid var(--coral);
+     padding-bottom:2px; display:inline-block; align-self:flex-start;
+   }
+   
+   @media (max-width:820px){
+     .gallery-block, .gallery-block.is-reverse{
+       grid-template-columns:1fr;
+       grid-template-rows:repeat(6, 180px) auto;
+       grid-template-areas:
+         "a"
+         "b"
+         "c"
+         "d"
+         "e"
+         "p";
+       margin:40px auto;
+     }
+     .gallery-panel{ padding:28px 24px; box-shadow:none; border-top:3px solid var(--coral); }
+   }
+   /* ---- Gallery photo tags: species name + short review ----
+   Reveal-on-scroll (reusa .reveal / IntersectionObserver
+   ya existente). Zoom SOLO en dispositivos con hover real
+   (mouse) — nunca se activa por tap en touch. */
+.g-tag{
+  position:absolute; left:12px; right:12px; bottom:12px; z-index:2;
+  background:rgba(19,36,32,.8); color:var(--paper);
+  padding:10px 14px; border-radius:2px;
+}
+.g-tag b{
+  display:block; font-family:var(--serif); font-weight:600;
+  font-size:.92rem; margin-bottom:3px;
+}
+.g-tag span{
+  display:block; font-size:.72rem; line-height:1.4;
+  color:rgba(216,230,221,.85);
+}
+.g-photo img{ transition:transform .5s ease; }
+@media (hover:hover){
+  .g-photo:hover img{ transform:scale(1.04); }
+}
