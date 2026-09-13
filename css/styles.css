@@ -31,10 +31,6 @@
    - Los ids de ancla (#cozumel, #yucatan, #chiapas) viven en el
      HTML de tours.html, no aquí — este archivo solo define el
      scroll-margin-top para que el header fijo no los tape.
-   - ⚠️ Hay 2 colores que no coinciden con la paleta editorial
-     documentada originalmente (ver aviso en la sección 1 y en
-     WHY / ACCESSORIES más abajo). Probablemente sean valores de
-     prueba — confirmar con diseño antes de ir a producción.
    ============================================================ */
 
 
@@ -45,7 +41,7 @@
     --ink:#222b24;         /* texto oscuro, nav/footer sólido, fondo de Elvis */
     --nav-footer:#272b00;  /* fondo del header cuando no hay hero detrás, y footer */
     --paper:#cae3d3;       /* fondo principal del sitio (verde claro) */
-    --paper-dim:#c3f7e9;   /* ⚠️ VER NOTA ABAJO */
+    --paper-dim:#DFDACD;   /* secciones alternas / bordes — paleta documentada */
     --lagoon:#39493D;      /* links, kickers, acentos secundarios */
     --coral:#8C2F26;       /* CTAs, hovers, línea de acento */
     --jungle:#A69574;      /* detalles chicos: numerales, tags, meta-labels */
@@ -53,13 +49,7 @@
     --serif:'Fraunces', serif;
     --sans:'Inter', sans-serif;
   }
-  /* ⚠️ NOTA: --paper-dim está en un tono menta/cian brillante (#c3f7e9),
-     muy distinto del beige original documentado (#DFDACD). Esta variable
-     se usa en bordes y fondos alternos en varias secciones (tour-feature,
-     tours-jump, what-to-expect). Si esto no fue un cambio intencional de
-     diseño, regresarlo a un tono tierra/beige es un cambio de una sola
-     línea aquí arriba. */
-  
+
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{font-family:var(--sans); background:var(--paper); color:var(--ink); line-height:1.55;}
@@ -334,12 +324,9 @@
   
   /* ============================================================
      9. WHY GALA NATURALEZA — solo Home
-     ⚠️ NOTA: el fondo (#96bee0, azul) es un hex fijo que no
-     corresponde a ninguna variable de la paleta documentada
-     (ver sección 1). Confirmar con diseño si es intencional o
-     un valor de prueba que quedó pegado.
+     Fondo alterno usando la variable de paleta documentada.
      ============================================================ */
-  .why-section{background:#96bee0;}
+  .why-section{background:var(--paper-dim);}
   .why-list{display:flex; flex-direction:column; margin-top:40px;}
   .why-item{
     display:grid; grid-template-columns:5rem 1fr; gap:32px; align-items:baseline;
@@ -374,11 +361,9 @@
   /* ============================================================
      11. ACCESSORIES — solo Home
      Catálogo informativo (gorra/playera), sin ecommerce ni precio.
-     ⚠️ NOTA: mismo caso que WHY arriba — el fondo (#cdf7f0) es
-     un mint brillante fuera de la paleta documentada. Confirmar
-     si es intencional.
+     Fondo alterno usando la variable de paleta documentada.
      ============================================================ */
-  .accessories-section{background:#cdf7f0;}
+  .accessories-section{background:var(--paper-dim);}
   .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
   .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
   .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
@@ -446,17 +431,6 @@
     font-family:var(--serif); font-style:italic; font-size:1.25rem;
     color:var(--lagoon); margin-bottom:18px;
   }
-  
-  /* NO SE USA ACTUALMENTE — se quitó manualmente de tours.html porque
-     se sentía redundante después de los CTAs de WhatsApp por destino.
-     Se deja aquí por si se decide reincorporar; si no, se puede borrar
-     con seguridad (no rompe nada más). */
-  .tours-final-cta{ background:var(--ink); color:var(--paper); text-align:center; }
-  .tours-final-cta h2{
-    font-family:var(--serif); font-weight:600;
-    font-size:clamp(1.8rem,3.4vw,2.6rem); margin-bottom:28px;
-  }
-  .tours-final-cta .hero-cta{ justify-content:center; margin:0 auto; display:inline-flex; }
   
   @media (max-width:480px){
     .tours-jump ul{ gap:20px; }
@@ -694,19 +668,23 @@
     .tours-jump ul{ gap:20px; }
     .tour-formats-grid{ gap:28px; }
   }
-  .section-title-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.trip-badge{ width:32px; height:32px; fill:#00AF87; flex-shrink:0; }
 
-.review-dots{ display:flex; gap:5px; margin-bottom:10px; }
-.review-dots span{ width:10px; height:10px; border-radius:50%; background:#00AF87; display:inline-block; }
-.trip-count{
-  font-size:.85rem; color:var(--jungle); font-weight:600;
-  letter-spacing:.02em; margin-top:-8px; margin-bottom:32px;
-}
-/* ==========================================================
-   WHATSAPP BUBBLE — invitación contextual junto al botón flotante
-   ========================================================== */
-   .wa-bubble{
+  /* ============================================================
+     (SIN INDEXAR A PETICIÓN DEL CLIENTE — no tocar)
+     Reviews: variante con badge grande + dots + contador.
+     WhatsApp bubble: burbuja de invitación junto al botón flotante.
+     ============================================================ */
+  .section-title-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .trip-badge{ width:32px; height:32px; fill:#00AF87; flex-shrink:0; }
+
+  .review-dots{ display:flex; gap:5px; margin-bottom:10px; }
+  .review-dots span{ width:10px; height:10px; border-radius:50%; background:#00AF87; display:inline-block; }
+  .trip-count{
+    font-size:.85rem; color:var(--jungle); font-weight:600;
+    letter-spacing:.02em; margin-top:-8px; margin-bottom:32px;
+  }
+
+  .wa-bubble{
     position:fixed; right:24px; bottom:90px; z-index:69;
     background:#fff; color:var(--ink); max-width:260px;
     padding:16px 18px; border-radius:8px;
@@ -736,6 +714,8 @@
   @media (max-width:600px){
     .wa-bubble{ right:16px; bottom:78px; max-width:calc(100vw - 32px); }
   }
+
+
 /* ============================================================
    18. GALLERY PAGE — v2: mobile-first, fotos verticales
    MOBILE (base): columna única, cada foto a su alto natural
