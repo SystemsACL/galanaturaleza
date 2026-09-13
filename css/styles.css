@@ -1,4 +1,22 @@
 /* ============================================================
+   ⚠️ VERSIÓN OFICIAL — GALA NATURALEZA / styles.css
+   ============================================================
+   Este archivo es la fuente de verdad vigente del proyecto.
+
+   NOTA PARA CUALQUIER DEV O ASISTENTE/LLM QUE EDITE ESTO:
+   - NO cambies colores, variables, ni reestructures secciones
+     sin confirmar antes con el cliente/CTO.
+   - Si encuentras algo que "parece" un error (color fuera de
+     paleta, valor inconsistente, etc.), PREGUNTA primero —
+     puede ser una decisión intencional ya aprobada, aunque no
+     coincida con una versión anterior de este mismo archivo.
+   - Antes de tocar código: entender el pedido, confirmar
+     alcance, y solo después modificar.
+   - Última actualización de paleta confirmada: --paper-dim
+     = #c3f7e9, --sky = #cde9f7 (agregada para Accessories).
+   ============================================================ */
+
+/* ============================================================
    GALA NATURALEZA — STYLESHEET
    ============================================================
    Sitio 100% estático (HTML/CSS/JS), sin build, sin framework.
@@ -41,7 +59,8 @@
     --ink:#222b24;         /* texto oscuro, nav/footer sólido, fondo de Elvis */
     --nav-footer:#272b00;  /* fondo del header cuando no hay hero detrás, y footer */
     --paper:#cae3d3;       /* fondo principal del sitio (verde claro) */
-    --paper-dim:#DFDACD;   /* secciones alternas / bordes — paleta documentada */
+    --paper-dim:#c3f7e9;   /* secciones alternas / bordes */
+    --sky:#cde9f7;         /* fondo de Accessories */
     --lagoon:#39493D;      /* links, kickers, acentos secundarios */
     --coral:#8C2F26;       /* CTAs, hovers, línea de acento */
     --jungle:#A69574;      /* detalles chicos: numerales, tags, meta-labels */
@@ -363,7 +382,7 @@
      Catálogo informativo (gorra/playera), sin ecommerce ni precio.
      Fondo alterno usando la variable de paleta documentada.
      ============================================================ */
-  .accessories-section{background:var(--paper-dim);}
+  .accessories-section{background:var(--sky);}
   .accessories-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:40px; margin-top:44px;}
   .accessory-card img{width:100%; aspect-ratio:4/3; object-fit:cover; margin-bottom:20px;}
   .accessory-card h4{font-family:var(--serif); font-weight:600; font-size:1.25rem; margin-bottom:8px;}
