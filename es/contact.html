@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contacto — Gala Naturaleza</title>
-<meta name="description" content="¿Listo para explorar? Inicia una conversación con Gala Naturaleza por WhatsApp o correo para planear tu tour de avistamiento en Cozumel, Yucatán o Chiapas.">
+<title>Contacto y Planifica tu Experiencia — Gala Naturaleza</title>
+<meta name="description" content="Planea tu tour privado de avistamiento de aves y vida silvestre en Cozumel, Yucatán o Chiapas con el naturalista local Elvis Jiménez. Arma tu consulta para WhatsApp.">
 <link rel="alternate" hreflang="en" href="https://galanaturaleza.com/en/contact.html">
 <link rel="alternate" hreflang="es" href="https://galanaturaleza.com/es/contact.html">
 <link rel="canonical" href="https://galanaturaleza.com/es/contact.html">
@@ -60,7 +60,7 @@
   <section class="page-hero">
     <div class="hero-slide" style="background-image:url('../img/hero/contacbird.jpg');"></div>
     <div class="talk-hero-content wrap">
-      <p class="hero-kicker">Hablemos</p>
+      <p class="hero-kicker">Planifica tu Experiencia</p>
       <h1>¿Listo para explorar?</h1>
     </div>
   </section>
@@ -83,29 +83,172 @@
     </div>
   </div>
 
-  <!-- ===== DESTINATION STRIP ===== -->
-  <section class="destination-strip">
-    <div class="strip-scroller">
-      <div class="strip-item"><img src="../img/tours/cozumel.jpg" alt="Cozumel" loading="lazy"><span>Cozumel</span></div>
-      <div class="strip-item"><img src="../img/tours/yucatan.jpg" alt="Yucatán" loading="lazy"><span>Yucatán</span></div>
-      <div class="strip-item"><img src="../img/tours/chiapas.jpg" alt="Chiapas" loading="lazy"><span>Chiapas</span></div>
+  <!-- ===== 1. CONFIGURADOR (CONVERSIÓN) ===== -->
+  <section class="planner-section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">01 — Planifica tu Experiencia</p>
+        <h2 class="section-title">Diseña tu salida con Elvis.</h2>
+        <p class="section-desc">Elige tus preferencias a continuación para armar una consulta directa por WhatsApp. Sin pagos por adelantado ni formularios complicados.</p>
+      </div>
+
+      <form id="trip-planner" class="planner-card reveal" onsubmit="return false;">
+        <!-- Destino -->
+        <div class="planner-field">
+          <span class="planner-label">¿Dónde quieres explorar?</span>
+          <div class="pill-group" data-param="destination">
+            <button type="button" class="pill-btn is-selected" data-value="Cozumel">Cozumel</button>
+            <button type="button" class="pill-btn" data-value="Yucatán">Yucatán</button>
+            <button type="button" class="pill-btn" data-value="Chiapas">Chiapas</button>
+          </div>
+        </div>
+
+        <!-- Interés -->
+        <div class="planner-field">
+          <span class="planner-label">¿Qué te interesa más?</span>
+          <div class="pill-group" data-param="interest">
+            <button type="button" class="pill-btn is-selected" data-value="observación de aves">Aves / Birding</button>
+            <button type="button" class="pill-btn" data-value="vida silvestre">Vida Silvestre</button>
+            <button type="button" class="pill-btn" data-value="fotografía">Fotografía</button>
+            <button type="button" class="pill-btn" data-value="naturaleza">Naturaleza</button>
+          </div>
+        </div>
+
+        <!-- Grupo -->
+        <div class="planner-field">
+          <span class="planner-label">¿Cuántas personas?</span>
+          <div class="pill-group" data-param="group">
+            <button type="button" class="pill-btn is-selected" data-value="1–2 personas">1–2</button>
+            <button type="button" class="pill-btn" data-value="3–4 personas">3–4</button>
+            <button type="button" class="pill-btn" data-value="5+ personas">5+</button>
+          </div>
+        </div>
+
+        <!-- Fecha tentativa -->
+        <div class="planner-field">
+          <label class="planner-label" for="planner-date">Fecha o mes tentativo <span class="opt-tag">(opcional)</span></label>
+          <input type="text" id="planner-date" class="planner-input" placeholder="Ej. octubre, o próxima semana" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+        </div>
+
+        <!-- Acción / Mensaje generado -->
+        <div class="planner-action">
+          <div class="planner-preview-box">
+            <span class="preview-label">Previsualización de tu mensaje para WhatsApp</span>
+            <p id="planner-preview" class="planner-preview">"Hola Elvis, me interesa un tour en Cozumel enfocado en observación de aves para 1–2 personas. ¿Qué disponibilidad tienes?"</p>
+          </div>
+
+          <a id="planner-wa-btn" href="https://wa.me/529871413620?text=Hola%20Elvis,%20me%20interesa%20un%20tour%20en%20Cozumel%20enfocado%20en%20observaci%C3%B3n%20de%20aves%20para%201%E2%80%932%20personas.%20%C2%BFQu%C3%A9%20disponibilidad%20tienes?" target="_blank" rel="noopener" class="planner-submit-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.1-3.4-8.3zM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 7 2.9a9.7 9.7 0 0 1 2.9 7c0 5.5-4.4 9.9-9.9 9.9z"/></svg>
+            <span>Continuar en WhatsApp →</span>
+          </a>
+
+          <p class="planner-alt">¿Prefieres correo? <a id="planner-email-link" href="mailto:elvisfotografosilvestre@gmail.com?subject=Consulta%20de%20Tour%20%E2%80%94%20Cozumel">Enviar un correo en su lugar →</a></p>
+        </div>
+      </form>
     </div>
   </section>
 
-  <!-- ===== CONTACT OPTIONS ===== -->
-  <section class="contact-options">
-    <div class="wrap options-grid">
-      <div class="option-card is-primary reveal">
-        <span class="opt-label">WhatsApp</span>
-        <p>La forma más rápida de contactar a Elvis.</p>
-        <a href="https://wa.me/529871413620?text=Hola!%20Quisiera%20reservar%20un%20tour" class="opt-btn">Iniciar Conversación →</a>
+  <!-- ===== 2. ANTES DE SALIR (QUÉ LLEVAR / QUÉ ESPERAR) ===== -->
+  <section class="before-you-go">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">02 — Antes de Salir</p>
+        <h2 class="section-title">Qué esperar y qué llevar.</h2>
+        <p class="section-desc">Información práctica para que disfrutes al máximo cada minuto en el campo.</p>
       </div>
-      <div class="option-card is-secondary reveal">
-        <span class="opt-label">Correo</span>
-        <p>¿Prefieres correo?</p>
-        <span class="opt-value">elvisfotografosilvestre@gmail.com</span>
-        <a href="mailto:elvisfotografosilvestre@gmail.com" class="opt-btn">Enviar un Correo →</a>
+
+      <div class="essentials-grid">
+        <div class="essential-card reveal">
+          <span class="essential-num">01</span>
+          <h3>Inicio Temprano</h3>
+          <p>Las primeras horas de la mañana suelen ser las más activas y favorables para observar aves y vida silvestre antes del calor del mediodía.</p>
+        </div>
+
+        <div class="essential-card reveal">
+          <span class="essential-num">02</span>
+          <h3>Ropa Cómoda</h3>
+          <p>Ropa ligera y transpirable en tonos naturales o neutros (verdes, tierra), combinada con calzado cerrado y cómodo para caminar.</p>
+        </div>
+
+        <div class="essential-card reveal">
+          <span class="essential-num">03</span>
+          <h3>Lleva tu Óptica</h3>
+          <p>Tus binoculares y cámara son bienvenidos. Si no cuentas con binoculares propios, avísale a Elvis con anticipación para prepararte un par.</p>
+        </div>
+
+        <div class="essential-card reveal">
+          <span class="essential-num">04</span>
+          <h3>Lo Esencial</h3>
+          <p>Agua en botella reutilizable, sombrero, protección solar amigable con el arrecife y repelente ecológico para proteger los ecosistemas.</p>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. PREGUNTAS FRECUENTES (FAQ) ===== -->
+  <section class="contact-faq">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">03 — Preguntas Frecuentes</p>
+        <h2 class="section-title">Todo lo que necesitas saber.</h2>
+      </div>
+
+      <div class="faq-accordion reveal">
+        <details class="faq-item">
+          <summary class="faq-question">¿Necesito experiencia previa en observación de aves?</summary>
+          <div class="faq-answer">
+            <p>Para nada. Cada tour es 100% privado y se adapta a tu ritmo. Ya sea que tomes unos binoculares por primera vez o seas un observador experimentado en busca de aves endémicas, Elvis ajusta la salida a tu interés y nivel.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">¿Puedo solicitar aves o fauna silvestre en específico?</summary>
+          <div class="faq-answer">
+            <p>Por supuesto. Si tienes especies objetivo (como el Colibrí Esmeralda, el Vireo de Cozumel, el Chivirín de Cozumel o especialidades de Yucatán), avísale a Elvis al escribirle para planear las mejores zonas y horarios.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">¿Está permitida la fotografía?</summary>
+          <div class="faq-answer">
+            <p>¡Totalmente bienvenida! Elvis es fotógrafo profesional de vida silvestre y te apoyará para conseguir los mejores ángulos, luz natural y posaderos limpios sin estresar a los animales.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">¿Dónde nos encontramos?</summary>
+          <div class="faq-answer">
+            <p>Para los tours en Cozumel, podemos encontrarnos directamente en el muelle de ferris de pasajeros, en el lobby de tu hotel o en un punto céntrico acordado. En Yucatán y Chiapas, la logística se coordina contigo directamente.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">¿Qué pasa si el clima no es favorable?</summary>
+          <div class="faq-answer">
+            <p>Una llovizna tropical ligera rara vez detiene a las aves, pero tu seguridad y comodidad son la prioridad. Si las condiciones meteorológicas son adversas, reprogramaremos la salida o ajustaremos el horario de común acuerdo.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">¿Cómo realizo la reserva?</summary>
+          <div class="faq-answer">
+            <p>La reserva es directa y sin intermediarios. Escríbele a Elvis por WhatsApp con el destino de tu interés y tus fechas tentativas. Una vez acordado, tu fecha queda reservada. El pago se realiza en efectivo el día del tour.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. CTA FINAL ===== -->
+  <section class="contact-final-cta reveal">
+    <div class="wrap final-cta-box">
+      <p class="final-cta-kicker">Comienza Tu Viaje</p>
+      <h2>¿Listo para explorar?</h2>
+      <p class="final-cta-sub">Cuéntanos a dónde te gustaría ir y qué esperas ver.</p>
+      <a href="https://wa.me/529871413620?text=Hola%20Elvis!%20Quisiera%20platicar%20sobre%20un%20tour" class="final-cta-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.1-3.4-8.3zM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 7 2.9a9.7 9.7 0 0 1 2.9 7c0 5.5-4.4 9.9-9.9 9.9z"/></svg>
+        <span>Hablar con Elvis por WhatsApp →</span>
+      </a>
     </div>
   </section>
 
@@ -166,17 +309,20 @@
     <p class="footer-credit">Desarrollado por <a href="https://aclsys.net/servicios" target="_blank" rel="noopener">ACLSYS</a></p>
   </div>
 </footer>
+
 <div class="wa-bubble">
   <button class="wa-bubble-close" aria-label="Cerrar">&times;</button>
   <strong>¿Dudas sobre tu tour?</strong>
   Pregúntale a Elvis directo por WhatsApp.
   <a href="https://wa.me/529871413620?text=Hola!%20Quisiera%20saber%20m%C3%A1s%20sobre%20un%20tour" class="wa-bubble-link">Chatear ahora →</a>
 </div>
+
 <a class="wa-float" href="https://wa.me/529871413620?text=Hola!%20Quisiera%20reservar%20un%20tour" aria-label="Chatear por WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.1-3.4-8.3zM12 21.6c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.7 9.7 0 0 1-1.5-5.2C2.1 6.5 6.5 2.1 12 2.1c2.6 0 5.1 1 7 2.9a9.7 9.7 0 0 1 2.9 7c0 5.5-4.4 9.9-9.9 9.9z"/></svg>
   <span>WhatsApp</span>
 </a>
 
 <script src="../js/main.js"></script>
+<script src="../js/contact.js"></script>
 </body>
 </html>
