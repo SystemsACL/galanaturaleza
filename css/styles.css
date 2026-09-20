@@ -899,6 +899,10 @@
   
   @media (max-width:860px){ .footer-grid{grid-template-columns:1fr 1fr;} }
   @media (max-width:520px){ .footer-grid{grid-template-columns:1fr;} .footer-bottom{flex-direction:column; align-items:flex-start;} }
+  @media (max-width:480px){
+    .footer-logo-mini{ width:34px; height:34px; }
+    .footer-brand-row{ gap:8px; }
+  }
   
   
   /* ============================================================
