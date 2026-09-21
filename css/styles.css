@@ -870,7 +870,6 @@
 
   
   .footer-credit{margin-top:14px; font-size:.72rem; color:#7A7C64; text-align:center;}
-  .footer-credit a{color:#9A9C82;}
   .footer-credit a:hover{color:var(--coral);}
   
   .footer-social{display:flex; gap:12px; margin-top:6px;}
