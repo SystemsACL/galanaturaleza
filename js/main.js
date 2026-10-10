@@ -1,57 +1,47 @@
-document.addEventListener('DOMContentLoaded', function () {
+/* ==========================================================
+   FISHING WEBSITE — COZUMEL
+   main.js — shared behavior across all pages
+   ========================================================== */
 
-  /* Mobile nav toggle */
-  var toggle = document.querySelector('.nav-toggle');
-  var nav = document.getElementById('site-nav');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var isOpen = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-    });
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
+   document.addEventListener('DOMContentLoaded', function () {
 
-  /* Header: transparent over hero, solid/glass after scrolling past it */
-  var header = document.querySelector('.site-header');
-  var hero = document.querySelector('.hero-cinematic');
-  if (header) {
-    if (!hero) {
-      header.classList.add('no-hero');
-    } else {
-      var threshold = Math.max(hero.offsetHeight - 90, 60);
+    /* ---------- Header solid on scroll ---------- */
+    var header = document.querySelector('.site-header');
+    if (header) {
       var onScroll = function () {
-        if (window.scrollY > threshold) {
-          header.classList.add('is-solid');
-        } else {
-          header.classList.remove('is-solid');
-        }
+        if (window.scrollY > 40) header.classList.add('solid');
+        else header.classList.remove('solid');
       };
+      window.addEventListener('scroll', onScroll);
       onScroll();
-      window.addEventListener('scroll', onScroll, { passive: true });
     }
-  }
-
-  /* Hero slideshow */
-  var slides = document.querySelectorAll('.hero-slide');
-  if (slides.length > 1) {
-    var current = 0;
-    setInterval(function () {
-      slides[current].classList.remove('is-active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('is-active');
-    }, 6000);
-  }
-
-  /* Reveal-on-scroll for editorial sections */
-  var revealEls = document.querySelectorAll('.reveal');
-  if (revealEls.length) {
-    if ('IntersectionObserver' in window) {
+  
+    /* ---------- Mobile nav toggle ---------- */
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.querySelector('.main-nav');
+    if (toggle && nav) {
+      var setOpen = function (isOpen) {
+        nav.classList.toggle('open', isOpen);
+        toggle.textContent = isOpen ? '✕' : '☰';
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        // body{overflow:hidden} alone doesn't stop Lenis — it listens to
+        // wheel/touch on window directly, so the page behind the open
+        // menu would keep scrolling without this.
+        if (window.__lenis) { isOpen ? window.__lenis.stop() : window.__lenis.start(); }
+      };
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.addEventListener('click', function () {
+        setOpen(!nav.classList.contains('open'));
+      });
+      nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { setOpen(false); });
+      });
+    }
+  
+    /* ---------- Scroll reveal ---------- */
+    var revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && revealEls.length) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -64,21 +54,55 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       revealEls.forEach(function (el) { el.classList.add('is-visible'); });
     }
-  }
-    /* WhatsApp bubble: aparece una vez por sesión, se puede cerrar */
-    var waBubble = document.querySelector('.wa-bubble');
-    if (waBubble) {
-      var waBubbleClose = waBubble.querySelector('.wa-bubble-close');
-      if (!sessionStorage.getItem('waBubbleDismissed')) {
-        setTimeout(function () {
-          waBubble.classList.add('is-visible');
-        }, 4000);
-      }
-      if (waBubbleClose) {
-        waBubbleClose.addEventListener('click', function () {
-          waBubble.classList.remove('is-visible');
-          sessionStorage.setItem('waBubbleDismissed', '1');
+  
+    /* ---------- Lightbox (gallery pages) ---------- */
+    var lightbox = document.querySelector('.lightbox');
+    if (lightbox) {
+      var lightboxImg = lightbox.querySelector('img');
+      var closeBtn = lightbox.querySelector('.lightbox-close');
+      document.querySelectorAll('[data-lightbox]').forEach(function (trigger) {
+        trigger.addEventListener('click', function (e) {
+          e.preventDefault();
+          var src = trigger.getAttribute('data-lightbox');
+          if (lightboxImg) lightboxImg.src = src;
+          lightbox.classList.add('open');
+          document.body.style.overflow = 'hidden';
+          if (window.__lenis) window.__lenis.stop();
         });
-      }
+      });
+      var closeLightbox = function () {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        if (window.__lenis) window.__lenis.start();
+      };
+      if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
     }
-});
+  
+    /* ---------- FAQ accordion ---------- */
+    document.querySelectorAll('.faq-question').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.faq-item');
+        var willOpen = !item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(function (open) {
+          if (open !== item) {
+            open.classList.remove('open');
+            open.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          }
+        });
+        item.classList.toggle('open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        // Opening/closing an item changes the page's height, which shifts
+        // every ScrollTrigger below it out of sync with the actual layout.
+        if (window.ScrollTrigger) {
+          setTimeout(function () { window.ScrollTrigger.refresh(); }, 350);
+        }
+      });
+    });
+  
+  });
