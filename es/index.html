@@ -30,60 +30,70 @@
   <meta property="og:image" content="https://galanaturaleza.com/img/og/og-image.jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <!--
-    JSON-LD LocalBusiness — datos NO cambian por idioma.
-    reviewCount=62 y ratingValue=5.0 son reales de Tripadvisor
-    (verificado). Revisar cada 2-3 meses y actualizar si cambia.
-  -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": ["LocalBusiness", "TravelAgency"],
-      "name": "Gala Naturaleza",
-      "image": "https://galanaturaleza.com/img/og/og-image.jpeg",
-      "url": "https://galanaturaleza.com/es/index.html",
-      "telephone": "+529871413620",
-      "email": "elvisfotografosilvestre@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Cozumel",
-        "addressRegion": "Quintana Roo",
-        "addressCountry": "MX"
-      },
-      "areaServed": ["Cozumel", "Yucatán", "Chiapas"],
-      "sameAs": [
-        "https://www.facebook.com/galareptiles/?locale=es_LA",
-        "https://www.instagram.com/gala_naturaleza_photography/",
-        "https://www.tripadvisor.com.mx/Attraction_Review-g150809-d33016152-Reviews-Gala_Naturaleza-Cozumel_Yucatan_Peninsula.html"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "bestRating": "5",
-        "reviewCount": "62"
-      },
-      "review": [
-        {
-          "@type": "Review",
-          "author": { "@type": "Person", "name": "Krystal R" },
-          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-          "reviewBody": "Elvis was amazing and taught us so much."
+<!-- JSON-LD LocalBusiness (ES, para es/index.html). ONE block only: replace BOTH old JSON-LD blocks with this one.
+     reviewCount=62 and ratingValue=5.0 are real Tripadvisor data (verified). Review every 2-3 months. -->
+     <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["LocalBusiness", "TravelAgency"],
+        "@id": "https://galanaturaleza.com/#business",
+        "name": "Gala Naturaleza",
+        "description": "Experiencias guiadas de observación de aves y naturaleza en Cozumel, la Península de Yucatán y Chiapas, con el fotógrafo de naturaleza Elvis Jiménez.",
+        "url": "https://galanaturaleza.com/es/index.html",
+        "logo": "https://galanaturaleza.com/img/logo/logo.png",
+        "image": "https://galanaturaleza.com/img/og/og-image.jpeg",
+        "telephone": "+529871413620",
+        "email": "elvisfotografosilvestre@gmail.com",
+        "paymentAccepted": "Cash",
+        "knowsLanguage": ["en", "es"],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cozumel",
+          "addressRegion": "Quintana Roo",
+          "addressCountry": "MX"
         },
-        {
-          "@type": "Review",
-          "author": { "@type": "Person", "name": "Kelly B" },
-          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-          "reviewBody": "An exceptional birding tour — Elvis is knowledgeable and passionate."
+        "areaServed": [
+          { "@type": "Place", "name": "Cozumel, Quintana Roo" },
+          { "@type": "AdministrativeArea", "name": "Yucatán" },
+          { "@type": "AdministrativeArea", "name": "Chiapas" }
+        ],
+        "founder": { "@type": "Person", "name": "Elvis Jiménez", "jobTitle": "Fotógrafo de naturaleza y guía de aves" },
+        "sameAs": [
+          "https://www.facebook.com/galareptiles/",
+          "https://www.instagram.com/gala_naturaleza_photography/",
+          "https://www.tripadvisor.com.mx/Attraction_Review-g150809-d33016152-Reviews-Gala_Naturaleza-Cozumel_Yucatan_Peninsula.html"
+        ],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "bestRating": "5",
+          "reviewCount": "62"
         },
-        {
-          "@type": "Review",
-          "author": { "@type": "Person", "name": "Helen L" },
-          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-          "reviewBody": "Elvis was a wonderful guide — the highlight of our trip."
-        }
-      ]
-    }
-    </script>
+        "review": [
+          {
+            "@type": "Review",
+            "inLanguage": "en",
+            "author": { "@type": "Person", "name": "Krystal R" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Elvis was amazing and taught us so much."
+          },
+          {
+            "@type": "Review",
+            "inLanguage": "en",
+            "author": { "@type": "Person", "name": "Kelly B" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "An exceptional birding tour — Elvis is knowledgeable and passionate."
+          },
+          {
+            "@type": "Review",
+            "inLanguage": "en",
+            "author": { "@type": "Person", "name": "Helen L" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Elvis was a wonderful guide — the highlight of our trip."
+          }
+        ]
+      }
+      </script>
   </head>
   <body>
   
